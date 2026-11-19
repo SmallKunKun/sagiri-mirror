@@ -364,6 +364,8 @@ p {
 }
 
 .site-master-avatar {
+  box-sizing: content-box;
+  display: block;
   width: 100px;
   height: 100px;
   margin: 0 auto;
@@ -371,10 +373,7 @@ p {
   border: 2px dashed #fff;
   border-radius: 100%;
   background-color: #b7e6f7;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-clip: content-box;
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 
@@ -388,9 +387,32 @@ p {
   color: var(--accent);
   font-size: 18px;
   font-weight: 700;
+  line-height: 1.5;
   text-shadow:
-    0 0 4px #fff,
-    0 0 4px #fff;
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff;
 }
 
 @keyframes site-master-in {

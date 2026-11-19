@@ -85,12 +85,7 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
   </div>
 
   <div class="site-master">
-    <div
-      class="site-master-avatar"
-      style={`background-image: url('${site.avatar}')`}
-      aria-hidden="true"
-    >
-    </div>
+    <img class="site-master-avatar" src={site.avatar} alt="" />
     <h2 class="site-master-description">{site.tagline}</h2>
   </div>
 </header>
