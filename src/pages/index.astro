@@ -2,10 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Pagination from "../components/Pagination.astro";
 import PostList from "../components/PostList.astro";
-import { pagePosts, totalPages } from "../data/posts";
+import { getPosts, pagePosts, totalPagesFor } from "../data/posts";
 
+const allPosts = await getPosts();
 const currentPage = 1;
-const currentPosts = pagePosts(currentPage);
+const currentPosts = pagePosts(allPosts, currentPage);
+const totalPages = totalPagesFor(allPosts);
 ---
 
 <BaseLayout>

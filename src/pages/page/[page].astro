@@ -2,9 +2,13 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Pagination from "../../components/Pagination.astro";
 import PostList from "../../components/PostList.astro";
-import { pagePosts, totalPages } from "../../data/posts";
+import { getSiteConfig } from "../../data/backend";
+import { getPosts, pagePosts, totalPagesFor } from "../../data/posts";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const allPosts = await getPosts();
+  const totalPages = totalPagesFor(allPosts);
+
   return Array.from({ length: totalPages - 1 }, (_, index) => {
     const page = index + 2;
 
@@ -15,11 +19,14 @@ export function getStaticPaths() {
   });
 }
 
+const allPosts = await getPosts();
+const config = await getSiteConfig();
 const { page } = Astro.props;
-const currentPosts = pagePosts(page);
+const currentPosts = pagePosts(allPosts, page);
+const totalPages = totalPagesFor(allPosts);
 ---
 
-<BaseLayout title={`第 ${page} 页 | Sagiri Blog`}>
+<BaseLayout title={`第 ${page} 页 | ${config.title}`}>
   <PostList posts={currentPosts} />
   <Pagination currentPage={page} totalPages={totalPages} />
 </BaseLayout>

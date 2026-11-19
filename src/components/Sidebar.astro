@@ -6,20 +6,21 @@ import {
   resolveSocialIcon,
   socialLabel,
 } from "../data/backend";
-import { posts } from "../data/posts";
+import { getPosts } from "../data/posts";
 
 const config = await getSiteConfig();
 const socialLinks = config.social;
+const allPosts = await getPosts();
 
 const stats = [
-  { label: "文章", value: String(posts.length) },
+  { label: "文章", value: String(allPosts.length) },
   {
     label: "标签",
-    value: String(new Set(posts.flatMap((post) => post.tags)).size),
+    value: String(new Set(allPosts.flatMap((post) => post.tags)).size),
   },
   {
     label: "分类",
-    value: String(new Set(posts.map((post) => post.category)).size),
+    value: String(new Set(allPosts.map((post) => post.category)).size),
   },
 ];
 ---
@@ -70,7 +71,7 @@ const stats = [
   <section class="sidebar-card">
     <h3 class="sidebar-title">最新文章</h3>
     <ol class="sidebar-posts">
-      {posts.slice(0, 5).map((post) => (
+      {allPosts.slice(0, 5).map((post) => (
         <li>
           <a href={`/post/${post.slug}/`}>{post.title}</a>
         </li>
