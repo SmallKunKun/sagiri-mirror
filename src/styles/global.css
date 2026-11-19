@@ -467,7 +467,7 @@ p {
 
 .author-cover {
   position: relative;
-  height: 160px;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 4px;
   background-color: #b7e6f7;
@@ -486,9 +486,25 @@ p {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  line-height: 1.4;
+  line-height: 40px;
   text-align: center;
   text-shadow:
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
+    0 0 3px #fff,
     0 0 3px #fff,
     0 0 3px #fff,
     0 0 3px #fff,
