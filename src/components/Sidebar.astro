@@ -11,9 +11,11 @@ import { getPosts } from "../data/posts";
 
 interface Props {
   toc?: TocItem[];
+  article?: boolean;
 }
 
-const { toc = [] } = Astro.props;
+const { toc = [], article = false } = Astro.props;
+const showTabs = toc.length > 1;
 const config = await getSiteConfig();
 const socialLinks = config.social;
 const allPosts = await getPosts();
@@ -42,9 +44,109 @@ const tags = [...tagCounts.entries()].sort(
 ---
 
 <aside class="site-sidebar">
-  {toc.length > 1 ? (
-    <section class="sidebar-card">
-      <h3 class="sidebar-title">目录</h3>
+  {showTabs ? (
+    <div class="sidebar-card sidebar-nav-card">
+      <ul class="sidebar-nav motion-element">
+        <li
+          class="sidebar-nav-toc sidebar-nav-active"
+          data-target="post-toc-wrap"
+        >
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          关于我
+        </li>
+      </ul>
+    </div>
+  ) : null}
+
+  <section
+    id="site-overview-wrap"
+    class:list={["sidebar-panel", { "sidebar-panel-active": !showTabs }]}
+  >
+    <section class="sidebar-card author-card">
+      <div class="author-profile">
+        <div
+          class="author-cover"
+          style={`background-image: url('${config.avatar}')`}
+        >
+        </div>
+        <h2 class="author-name">{config.author}</h2>
+        <p class="author-description site-description motion-element">
+          {config.tagline}
+        </p>
+      </div>
+
+      <div class="author-social">
+        {socialLinks.map((link) => (
+          <a
+            href={resolveSocialHref(link)}
+            target={link.platform === "email" ? undefined : "_blank"}
+            rel={link.platform === "email" ? undefined : "me noreferrer"}
+            aria-label={socialLabel(link)}
+          >
+            <SocialIcon
+              platform={link.platform}
+              icon={resolveSocialIcon(link)}
+              label={socialLabel(link)}
+            />
+            <span>{socialLabel(link)}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {!article ? (
+      <section class="sidebar-card">
+        <h3 class="sidebar-title">分类</h3>
+        {categories.length > 0 ? (
+          <ul class="sidebar-terms">
+            {categories.map(([name, count]) => (
+              <li>
+                <a href={`/categories/${encodeURIComponent(name)}/`}>
+                  <span>{name}</span>
+                  <span class="sidebar-count">{count}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="sidebar-muted">暂无分类</p>
+        )}
+      </section>
+    ) : null}
+
+    {!article ? (
+      <section class="sidebar-card">
+        <h3 class="sidebar-title">标签</h3>
+        {tags.length > 0 ? (
+          <ul class="sidebar-tags">
+            {tags.map(([name, count]) => (
+              <li>
+                <a href={`/tags/${encodeURIComponent(name)}/`}>
+                  #{name}
+                  <span class="sidebar-count">{count}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="sidebar-muted">暂无标签</p>
+        )}
+      </section>
+    ) : null}
+  </section>
+
+  {showTabs ? (
+    <section
+      id="post-toc-wrap"
+      class:list={[
+        "sidebar-card",
+        "post-toc-wrap",
+        "sidebar-panel",
+        { "sidebar-panel-active": showTabs },
+      ]}
+    >
       <ul class="post-toc">
         {toc.map((item) => (
           <li class={`post-toc-level-${item.level}`}>
@@ -54,70 +156,26 @@ const tags = [...tagCounts.entries()].sort(
       </ul>
     </section>
   ) : null}
-
-  <section class="sidebar-card author-card">
-    <div class="author-profile">
-      <div
-        class="author-cover"
-        style={`background-image: url('${config.avatar}')`}
-      >
-      </div>
-      <h2 class="author-name">{config.author}</h2>
-      <p class="author-description site-description motion-element">{config.tagline}</p>
-    </div>
-
-    <div class="author-social">
-      {socialLinks.map((link) => (
-        <a
-          href={resolveSocialHref(link)}
-          target={link.platform === "email" ? undefined : "_blank"}
-          rel={link.platform === "email" ? undefined : "me noreferrer"}
-          aria-label={socialLabel(link)}
-        >
-          <SocialIcon
-            platform={link.platform}
-            icon={resolveSocialIcon(link)}
-            label={socialLabel(link)}
-          />
-          <span>{socialLabel(link)}</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="sidebar-card">
-    <h3 class="sidebar-title">分类</h3>
-    {categories.length > 0 ? (
-      <ul class="sidebar-terms">
-        {categories.map(([name, count]) => (
-          <li>
-            <a href={`/categories/${encodeURIComponent(name)}/`}>
-              <span>{name}</span>
-              <span class="sidebar-count">{count}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p class="sidebar-muted">暂无分类</p>
-    )}
-  </section>
-
-  <section class="sidebar-card">
-    <h3 class="sidebar-title">标签</h3>
-    {tags.length > 0 ? (
-      <ul class="sidebar-tags">
-        {tags.map(([name, count]) => (
-          <li>
-            <a href={`/tags/${encodeURIComponent(name)}/`}>
-              #{name}
-              <span class="sidebar-count">{count}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p class="sidebar-muted">暂无标签</p>
-    )}
-  </section>
 </aside>
+
+<script is:inline>
+  (() => {
+    const nav = document.querySelector(".sidebar-nav");
+    if (!nav) return;
+
+    const tabs = [...nav.querySelectorAll("[data-target]")];
+    for (const tab of tabs) {
+      tab.addEventListener("click", () => {
+        for (const item of tabs) {
+          item.classList.toggle("sidebar-nav-active", item === tab);
+        }
+        for (const panel of document.querySelectorAll(".sidebar-panel")) {
+          panel.classList.toggle(
+            "sidebar-panel-active",
+            panel.id === tab.dataset.target,
+          );
+        }
+      });
+    }
+  })();
+</script>

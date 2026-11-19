@@ -469,6 +469,49 @@ p {
   gap: 16px;
 }
 
+.sidebar-nav-card {
+  padding: 0 14px;
+}
+
+.sidebar-nav {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-nav li {
+  flex: 1;
+  padding: 14px 0;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.sidebar-nav li:hover {
+  color: var(--heading);
+}
+
+.sidebar-nav li.sidebar-nav-active {
+  border-bottom-color: var(--accent);
+  color: var(--heading);
+}
+
+.sidebar-panel {
+  display: none;
+}
+
+.sidebar-panel-active {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .sidebar-card {
   padding: 18px 14px;
   border-radius: var(--radius);
