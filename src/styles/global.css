@@ -377,7 +377,7 @@ p {
 }
 
 .site-master-avatar:hover {
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
 .site-master-description {
@@ -387,6 +387,7 @@ p {
   font-size: 18px;
   font-weight: 700;
   line-height: 1.5;
+  transition: transform 0.3s ease;
   text-shadow:
     0 0 3px #fff,
     0 0 3px #fff,
@@ -412,6 +413,10 @@ p {
     0 0 3px #fff,
     0 0 3px #fff,
     0 0 3px #fff;
+}
+
+.site-master-description:hover {
+  transform: scale(1.1);
 }
 
 @keyframes site-master-in {
