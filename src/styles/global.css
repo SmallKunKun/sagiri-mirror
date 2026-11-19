@@ -1041,6 +1041,8 @@ p {
 .posts-collapse .post-title a {
   display: inline-block;
   color: #666;
+  line-height: inherit;
+  vertical-align: top;
   transition:
     color 0.2s ease,
     transform 0.3s ease;
