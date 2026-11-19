@@ -24,7 +24,7 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
-  <body>
+  <body id="top">
     <a class="skip-link" href="#main">跳到正文</a>
     <div class="site-shell">
       <SiteHeader />
@@ -36,5 +36,7 @@ const {
       </div>
       <SiteFooter />
     </div>
+
+    <a class="back-to-top" href="#top" aria-label="回到顶部">↑</a>
   </body>
 </html>
