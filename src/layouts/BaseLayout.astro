@@ -40,6 +40,26 @@ const { title = config.title, description = config.description } = Astro.props;
       <SiteFooter />
     </div>
 
-    <a class="back-to-top" href="#top" aria-label="回到顶部">↑</a>
+    <a class="back-to-top" href="#top" aria-label="回到顶部">
+      <img src="/images/scroll.png" alt="" />
+    </a>
+
+    <script is:inline>
+      (() => {
+        const button = document.querySelector(".back-to-top");
+        if (!button) return;
+
+        const update = () => {
+          button.style.top =
+            window.scrollY > 700
+              ? `${window.innerHeight - 980}px`
+              : "-900px";
+        };
+
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+      })();
+    </script>
   </body>
 </html>

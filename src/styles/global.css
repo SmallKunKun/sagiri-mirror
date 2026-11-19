@@ -1194,28 +1194,23 @@ p {
 }
 
 .back-to-top {
+  box-sizing: border-box;
   position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 40;
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  background: #fff;
-  color: var(--accent);
-  font-size: 16px;
-  box-shadow: 0 4px 14px rgba(51, 68, 95, 0.12);
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  top: -900px;
+  right: 50px;
+  z-index: 2;
+  display: block;
+  width: 70px;
+  height: 900px;
+  cursor: pointer;
+  opacity: 1;
+  transition: top 0.5s ease-in-out;
 }
 
-.back-to-top:hover {
-  background: var(--accent);
-  color: #fff;
+.back-to-top img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .site-footer a {
@@ -1535,8 +1530,7 @@ p {
   }
 
   .back-to-top {
-    right: 16px;
-    bottom: 16px;
+    display: none;
   }
 }
 
