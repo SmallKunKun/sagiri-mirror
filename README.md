@@ -3,7 +3,7 @@
 # Sagiri Mirror
 
 基于 **Astro + Vue islands** 的 Sagiri 风格静态博客镜像<br>
-纱雾镜像 · 构建时读取远端博客数据，部署后是无需后端的纯静态站点
+构建时读取远端博客数据，部署后是无需后端的纯静态站点
 
 [![Astro](https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white&style=flat-square)](https://astro.build)
 [![Vue](https://img.shields.io/badge/Vue-3-42B883?logo=vue.js&logoColor=white&style=flat-square)](https://vuejs.org)
@@ -170,9 +170,25 @@ BLOG_ORIGIN=https://your-blog.example.com
 
 ### 6. 自定义域名
 
-在 **Settings → Pages → Custom domain** 中绑定自己的域名即可。`configure-pages` 会自动返回 `/` 作为 base，因此自定义域名下也能正常访问。
+在 **Settings → Secrets and variables → Actions → Variables** 中新建：
 
-模板中不建议固定写入 `CNAME`，否则其他人 fork 后会被带到同一个域名。
+```text
+CNAME=blog.example.com
+```
+
+构建时会自动：
+
+- 生成 `dist/CNAME`
+- 把 `base` 强制设为 `/`
+- 把站点 `site` 设为 `https://blog.example.com`
+
+然后在 **Settings → Pages → Custom domain** 中填写同一个域名即可。
+
+如果不设置 `CNAME`，不会生成 `CNAME` 文件，fork 默认使用：
+
+```text
+https://username.github.io/仓库名/
+```
 
 ## 本地开发
 
@@ -225,6 +241,7 @@ npm run preview
 | `src/blog.config.ts` → `footerConfig` | 页脚运行时间、ICP 备案、Made with 文案 |
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖默认远端博客地址 |
 | `PAGES_TOKEN` Actions Secret | 可选，用 PAT 自动创建和配置 Pages 站点 |
+| `CNAME` Actions Variable | 自定义域名，生成 `dist/CNAME` 并强制 `base=/` |
 | `BASE_PATH` | 部署子路径，GitHub Actions 自动设置 |
 | `SITE_ORIGIN` | 站点 origin，GitHub Actions 自动设置 |
 | `src/data/navigation.ts` | 首页 / 文章 / 友链固定导航 |

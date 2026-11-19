@@ -1,3 +1,6 @@
+import { writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import vue from "@astrojs/vue";
 
@@ -7,13 +10,35 @@ const isUserSite = Boolean(
   owner && repo && repo.toLowerCase() === `${owner.toLowerCase()}.github.io`,
 );
 
-const rawBase =
-  process.env.BASE_PATH || (repo && !isUserSite ? `/${repo}` : "/");
+const customDomain = (process.env.CNAME || process.env.CUSTOM_DOMAIN || "")
+  .trim()
+  .replace(/^https?:\/\//, "")
+  .replace(/\/.*$/, "");
+
+const rawBase = customDomain
+  ? "/"
+  : process.env.BASE_PATH || (repo && !isUserSite ? `/${repo}` : "/");
 const base =
   rawBase === "/" ? "/" : `/${rawBase.replace(/^\/+|\/+$/g, "")}`;
 
+const cname = {
+  name: "custom-domain-cname",
+  hooks: {
+    "astro:build:done": async ({ dir }) => {
+      if (!customDomain) return;
+      await writeFile(
+        join(fileURLToPath(dir), "CNAME"),
+        `${customDomain}\n`,
+        "utf8",
+      );
+    },
+  },
+};
+
 export default defineConfig({
-  site: process.env.SITE_ORIGIN || undefined,
+  site: customDomain
+    ? `https://${customDomain}`
+    : process.env.SITE_ORIGIN || undefined,
   base,
-  integrations: [vue()],
+  integrations: [vue(), cname],
 });

@@ -46,6 +46,7 @@ jobs:
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
           SITE_ORIGIN: ${{ steps.pages.outputs.origin }}
+          CNAME: ${{ vars.CNAME }}
           BLOG_ORIGIN: ${{ vars.BLOG_ORIGIN || 'https://your-blog.example.com' }}
 
       - name: Upload artifact
