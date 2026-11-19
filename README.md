@@ -241,6 +241,7 @@ npm run preview
 | `src/blog.config.ts` → `footerConfig` | 页脚运行时间、ICP 备案、Made with 文案 |
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖默认远端博客地址 |
 | `PAGES_TOKEN` Actions Secret | 可选，用 PAT 自动创建和配置 Pages 站点 |
+| `BLOG_API_TOKEN` Actions Secret | 可选，配合 Cloudflare WAF 跳过规则读取后端 |
 | `CNAME` Actions Variable | 自定义域名，生成 `dist/CNAME` 并强制 `base=/` |
 | `BASE_PATH` | 部署子路径，GitHub Actions 自动设置 |
 | `SITE_ORIGIN` | 站点 origin，GitHub Actions 自动设置 |
@@ -274,6 +275,28 @@ npm run preview
 - 文章正文来自远端 `feed.json` 的 HTML，代码高亮、数学公式和 Mermaid 等效果取决于远端输出，前端不额外处理。
 - 搜索索引同样来自远端内容；如果 feed 不可用，索引会退化为标题和摘要。
 - 图片直接引用远端地址，首次加载速度取决于图床。
+
+## 常见问题
+
+### GitHub Actions 构建时后端返回 403
+
+GitHub Actions 的出口 IP 可能被 Cloudflare 的托管挑战拦截，响应是 `Just a moment...`。只修改 `User-Agent` 不一定能通过。
+
+解决方式是给构建请求加一个自定义请求头，并在 Cloudflare 里放行它：
+
+1. 在 Cloudflare Dashboard → **Security → WAF → Custom rules** 新建规则：
+   - Field：`http.request.headers["x-blog-mirror-token"]`
+   - Operator：`equals`
+   - Value：一个随机长字符串
+   - Action：`Skip`
+   - 按实际可用项勾选跳过 Managed Challenge、Super Bot Fight Mode 等
+2. 在仓库 **Settings → Secrets and variables → Actions → Secrets** 新建：
+   ```text
+   BLOG_API_TOKEN=同一个随机长字符串
+   ```
+3. 重新运行 **Sync and deploy**。
+
+如果站点使用的是免费版 Bot Fight Mode 且无法用 WAF 跳过，需要先在 Cloudflare 中关闭 Bot Fight Mode，或改用其他构建出口。
 
 ## 致谢
 
