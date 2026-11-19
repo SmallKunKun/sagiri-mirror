@@ -28,6 +28,7 @@ const { title = config.title, description = config.description } = Astro.props;
     <title>{title}</title>
   </head>
   <body id="top">
+    <canvas id="evanyou" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">跳到正文</a>
     <div class="site-shell">
       <SiteHeader />
@@ -60,6 +61,62 @@ const { title = config.title, description = config.description } = Astro.props;
         window.addEventListener("scroll", update, { passive: true });
         window.addEventListener("resize", update);
       })();
+    </script>
+
+    <script is:inline>
+      if (document.getElementById("evanyou")) {
+        const canvas = document.getElementById("evanyou");
+        const context = canvas.getContext("2d");
+        const ratio = window.devicePixelRatio || 1;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const f = 90;
+        const tau = Math.PI * 2;
+        let r = 0;
+        let queue;
+
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        context.scale(ratio, ratio);
+        context.globalAlpha = 0.6;
+
+        function evanyou() {
+          context.clearRect(0, 0, width, height);
+          queue = [
+            { x: 0, y: height * 0.7 + f },
+            { x: 0, y: height * 0.7 - f },
+          ];
+          while (queue[1].x < width + f) draw(queue[0], queue[1]);
+        }
+
+        function draw(i, j) {
+          context.beginPath();
+          context.moveTo(i.x, i.y);
+          context.lineTo(j.x, j.y);
+          const k = j.x + (Math.random() * 2 - 0.25) * f;
+          const n = nextY(j.y);
+          context.lineTo(k, n);
+          context.closePath();
+          r -= tau / -50;
+          const red = Math.cos(r) * 127 + 128;
+          const green = Math.cos(r + tau / 3) * 127 + 128;
+          const blue = Math.cos(r + (tau * 2) / 3) * 127 + 128;
+          const color = ((red << 16) | (green << 8) | blue) >>> 0;
+          context.fillStyle = `#${color.toString(16).padStart(6, "0")}`;
+          context.fill();
+          queue[0] = queue[1];
+          queue[1] = { x: k, y: n };
+        }
+
+        function nextY(p) {
+          const t = p + (Math.random() * 2 - 1.1) * f;
+          return t > height || t < 0 ? nextY(p) : t;
+        }
+
+        document.onclick = evanyou;
+        document.ontouchstart = evanyou;
+        evanyou();
+      }
     </script>
   </body>
 </html>
