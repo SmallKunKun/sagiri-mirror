@@ -1,18 +1,11 @@
 ---
-import Counter from "../components/Counter.vue";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Astro + Vue islands</title>
-  </head>
-  <body>
-    <main>
-      <h1>Astro + Vue islands</h1>
-      <p>第 1 步：脚手架已跑通。</p>
-      <Counter client:load />
-    </main>
-  </body>
-</html>
+<BaseLayout>
+  <section class="placeholder-card">
+    <p class="eyebrow">Step 2</p>
+    <h2>布局壳已就位</h2>
+    <p>下一步会把这里换成文章列表和分页，数据先继续用占位内容。</p>
+  </section>
+</BaseLayout>

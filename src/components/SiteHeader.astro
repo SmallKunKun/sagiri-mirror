@@ -1,0 +1,26 @@
+---
+import MobileNav from "../components/MobileNav.vue";
+import { site } from "../data/site";
+---
+
+<header class="site-header">
+  <div class="site-nav-bar">
+    <a class="site-nav-brand" href="/">{site.title}</a>
+
+    <nav class="site-nav" aria-label="主导航">
+      {site.nav.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <MobileNav client:load links={site.nav} />
+  </div>
+
+  <div class="site-banner">
+    <div class="site-banner-inner">
+      <p class="site-banner-kicker">Astro + Vue islands</p>
+      <h1 class="site-banner-title">{site.title}</h1>
+      <p class="site-banner-subtitle">{site.subtitle}</p>
+    </div>
+  </div>
+</header>
