@@ -893,6 +893,87 @@ p {
   color: #fff;
 }
 
+.friends-page {
+  padding: 32px 40px;
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.friends-title {
+  margin-bottom: 22px;
+  color: var(--heading);
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.friends-empty {
+  margin-bottom: 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+.friends-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.friend-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.friend-link:hover {
+  border-color: rgba(255, 77, 0, 0.28);
+  box-shadow: 0 6px 18px rgba(51, 68, 95, 0.08);
+}
+
+.friend-logo {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friend-info {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.friend-name {
+  color: var(--heading);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.friend-description {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+  .friends-page {
+    padding: 28px 18px;
+    border-radius: 0;
+  }
+}
+
 .site-footer {
   margin-top: 0;
   padding: 18px 0 32px;

@@ -1,5 +1,5 @@
 import { blogSource } from "../blog.config";
-import { navigation, type NavItem } from "./navigation";
+import { fixedNavigation, type NavItem } from "./navigation";
 import { site } from "./site";
 
 export type SocialPlatform =
@@ -52,7 +52,7 @@ const FALLBACK_CONFIG: BackendSiteConfig = {
   avatar: site.avatar,
   bannerImage: site.card,
   social: FALLBACK_SOCIAL,
-  navLinks: navigation,
+  navLinks: fixedNavigation,
 };
 
 const SOCIAL_LABELS: Record<SocialPlatform, string> = {
@@ -117,13 +117,22 @@ function normalizeConfig(value: unknown): BackendSiteConfig {
 }
 
 function normalizeNavLinks(value: unknown): NavItem[] {
-  if (!Array.isArray(value)) return navigation;
+  const remote = Array.isArray(value)
+    ? value.map(toNavItem).filter((link): link is NavItem => link !== null)
+    : [];
 
-  const links = value
-    .map(toNavItem)
-    .filter((link): link is NavItem => link !== null);
+  const merged = [...fixedNavigation];
+  const seenHrefs = new Set(fixedNavigation.map((link) => link.href));
+  const seenLabels = new Set(fixedNavigation.map((link) => link.label));
 
-  return links.length > 0 ? links : navigation;
+  for (const link of remote) {
+    if (seenHrefs.has(link.href) || seenLabels.has(link.label)) continue;
+    merged.push(link);
+    seenHrefs.add(link.href);
+    seenLabels.add(link.label);
+  }
+
+  return merged;
 }
 
 function toNavItem(value: unknown): NavItem | null {

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import { getSiteConfig } from "../data/backend";
+import { getPosts } from "../data/posts";
+
+const config = await getSiteConfig();
+const allPosts = await getPosts();
+---
+
+<BaseLayout title={`文章 | ${config.title}`}>
+  <PostList posts={allPosts} />
+</BaseLayout>
