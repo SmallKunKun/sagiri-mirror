@@ -470,26 +470,23 @@ p {
 }
 
 .sidebar-card.sidebar-tabs {
-  padding: 0 14px 18px;
-}
-
-.sidebar-tabs .sidebar-nav {
-  margin: 0 0 16px;
+  padding: 20px 16px;
 }
 
 .sidebar-nav {
-  display: flex;
-  margin: 0;
+  display: block;
+  margin: 0 0 20px;
   padding: 0;
+  text-align: center;
   list-style: none;
 }
 
 .sidebar-nav li {
-  flex: 1;
-  padding: 14px 0;
-  border-bottom: 2px solid transparent;
-  color: var(--muted);
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+  color: #555;
   font-size: 14px;
+  line-height: 28px;
   text-align: center;
   cursor: pointer;
   transition:
@@ -497,13 +494,21 @@ p {
     border-color 0.2s ease;
 }
 
+.sidebar-nav-toc {
+  padding: 0 5px;
+}
+
+.sidebar-nav-overview {
+  margin-left: 10px;
+}
+
 .sidebar-nav li:hover {
-  color: var(--heading);
+  color: #fc6423;
 }
 
 .sidebar-nav li.sidebar-nav-active {
-  border-bottom-color: var(--accent);
-  color: var(--heading);
+  border-bottom-color: #fc6423;
+  color: #fc6423;
 }
 
 .sidebar-panel {
