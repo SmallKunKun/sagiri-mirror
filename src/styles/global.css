@@ -1177,8 +1177,11 @@ p {
   width: 100%;
   max-width: 1000px;
   height: auto;
-  /* footer.png has 34 transparent rows below the legs out of 368. */
-  transform: translateY(9.2391%);
+  /*
+   * footer.png is 1000x368. The white legs end at row 294; the skirt
+   * on the right goes lower. 74 of 368 rows remain below the legs.
+   */
+  transform: translateY(20.1087%);
 }
 
 .footer-inner {
