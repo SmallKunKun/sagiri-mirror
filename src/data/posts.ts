@@ -7,6 +7,7 @@ export interface PostCover {
 }
 
 export interface PostSummary {
+  id?: number;
   slug: string;
   title: string;
   summary: string;
@@ -281,6 +282,7 @@ function toPostSummary(value: unknown): PostSummary | null {
         : new Date(0).toISOString();
 
   return {
+    id: typeof item.id === "number" ? item.id : undefined,
     slug: item.slug,
     title: item.title,
     summary: typeof item.summary === "string" ? item.summary : "",

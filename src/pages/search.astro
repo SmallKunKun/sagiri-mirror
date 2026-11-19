@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SearchResults from "../components/SearchResults.vue";
+import { getSiteConfig } from "../data/backend";
+import { getSearchIndex } from "../data/search";
+
+const config = await getSiteConfig();
+const entries = await getSearchIndex();
+---
+
+<BaseLayout title={`搜索 | ${config.title}`}>
+  <SearchResults client:load entries={entries} />
+</BaseLayout>
