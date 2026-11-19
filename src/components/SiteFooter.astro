@@ -20,7 +20,19 @@ const year = new Date().getFullYear();
       </p>
     ) : null}
 
-    <p>© {year} {config.author}. 由 Astro 强力驱动. Theme By Sagiri.</p>
+    <p>
+      © {year} {config.author}. 由
+      <a href="https://astro.build" target="_blank" rel="noreferrer">Astro</a>
+      强力驱动. Theme By
+      <a
+        href="https://github.com/DIYgod/hexo-theme-sagiri"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Sagiri
+      </a>
+      .
+    </p>
 
     {footerConfig.icp ? (
       <p class="footer-icp">
