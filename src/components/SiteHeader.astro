@@ -18,9 +18,15 @@ import { site } from "../data/site";
 
   <div class="site-banner">
     <div class="site-banner-inner">
-      <p class="site-banner-kicker">Astro + Vue islands</p>
       <h1 class="site-banner-title">{site.title}</h1>
       <p class="site-banner-subtitle">{site.subtitle}</p>
     </div>
+  </div>
+
+  <div class="site-master">
+    <div class="site-master-avatar" aria-hidden="true">
+      {site.author.slice(0, 1)}
+    </div>
+    <p class="site-master-description">{site.description}</p>
   </div>
 </header>

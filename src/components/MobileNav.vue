@@ -63,12 +63,13 @@ const open = ref(false);
   width: 18px;
   height: 2px;
   border-radius: 2px;
-  background: #555;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
 }
 
 .mobile-menu {
   position: fixed;
-  top: 52px;
+  top: 58px;
   right: 16px;
   left: 16px;
   z-index: 20;
