@@ -12,6 +12,15 @@ interface FriendLink {
 const config = await getSiteConfig();
 const friends = await loadFriends();
 
+const plateCharacter = (name: string) => {
+  const characters = Array.from(name.trim());
+  return (
+    characters.find((character) => /[\p{L}\p{N}]/u.test(character)) ??
+    characters[0] ??
+    ""
+  );
+};
+
 async function loadFriends(): Promise<FriendLink[]> {
   try {
     const response = await fetch(`${BLOG_ORIGIN}/api/friend-links`, {
@@ -50,25 +59,20 @@ async function loadFriends(): Promise<FriendLink[]> {
         {friends.map((friend) => (
           <li>
             <a
-              class="friend-link"
               href={friend.siteUrl}
+              title={friend.siteName}
               target="_blank"
               rel="noreferrer"
             >
               {friend.logoUrl ? (
-                <img
-                  class="friend-logo"
-                  src={friend.logoUrl}
-                  alt=""
-                  loading="lazy"
-                />
-              ) : null}
-              <span class="friend-info">
-                <span class="friend-name">{friend.siteName}</span>
-                {friend.description ? (
-                  <span class="friend-description">{friend.description}</span>
-                ) : null}
-              </span>
+                <img src={friend.logoUrl} alt="" loading="lazy" />
+              ) : (
+                <span class="friend-logo-placeholder" aria-hidden="true">
+                  {plateCharacter(friend.siteName)}
+                </span>
+              )}
+              <h4>{friend.siteName}</h4>
+              {friend.description ? <p>{friend.description}</p> : null}
             </a>
           </li>
         ))}

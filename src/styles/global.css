@@ -1083,55 +1083,75 @@ p {
 
 .friends-list {
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.friend-link {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+.friends-list li {
+  position: relative;
+  border-radius: 5px;
+  transition: background 0.3s ease-out;
 }
 
-.friend-link:hover {
-  border-color: rgba(255, 77, 0, 0.28);
-  box-shadow: 0 6px 18px rgba(51, 68, 95, 0.08);
+.friends-list li:hover {
+  background: rgba(230, 244, 250, 0.5);
 }
 
-.friend-logo {
-  width: 48px;
-  height: 48px;
-  flex: none;
+.friends-list a {
+  position: relative;
+  display: block;
+  height: 90px;
+  padding: 0 10px 0 90px;
+  color: #555;
+}
+
+.friends-list img,
+.friend-logo-placeholder {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.friend-info {
+.friend-logo-placeholder {
   display: grid;
-  gap: 2px;
-  min-width: 0;
+  place-items: center;
+  background: linear-gradient(135deg, #b7e6f7, #f7c7a8);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
 }
 
-.friend-name {
-  color: var(--heading);
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.friend-description {
+.friends-list h4 {
   overflow: hidden;
-  color: var(--muted);
-  font-size: 13px;
+  margin: 0;
+  padding-top: 20px;
+  color: var(--heading);
+  font-size: 16px;
+  font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.friends-list p {
+  overflow: hidden;
+  margin: 10px 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .friends-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 991px) {
