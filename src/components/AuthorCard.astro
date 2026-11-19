@@ -1,0 +1,39 @@
+---
+import SocialIcon from "./SocialIcon.astro";
+import {
+  getSiteConfig,
+  resolveSocialHref,
+  resolveSocialIcon,
+  socialLabel,
+} from "../data/backend";
+
+const config = await getSiteConfig();
+const socialLinks = config.social;
+---
+
+<div class="author-profile">
+  <div class="author-cover" style={`background-image: url('${config.avatar}')`}>
+  </div>
+  <h2 class="author-name">{config.author}</h2>
+  <p class="author-description site-description motion-element">
+    {config.tagline}
+  </p>
+</div>
+
+<div class="author-social">
+  {socialLinks.map((link) => (
+    <a
+      href={resolveSocialHref(link)}
+      target={link.platform === "email" ? undefined : "_blank"}
+      rel={link.platform === "email" ? undefined : "me noreferrer"}
+      aria-label={socialLabel(link)}
+    >
+      <SocialIcon
+        platform={link.platform}
+        icon={resolveSocialIcon(link)}
+        label={socialLabel(link)}
+      />
+      <span>{socialLabel(link)}</span>
+    </a>
+  ))}
+</div>

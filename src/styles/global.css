@@ -469,8 +469,12 @@ p {
   gap: 16px;
 }
 
-.sidebar-nav-card {
-  padding: 0 14px;
+.sidebar-card.sidebar-tabs {
+  padding: 0 14px 18px;
+}
+
+.sidebar-tabs .sidebar-nav {
+  margin: 0 0 16px;
 }
 
 .sidebar-nav {
