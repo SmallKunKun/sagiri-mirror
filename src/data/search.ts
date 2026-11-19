@@ -1,4 +1,5 @@
 import { BLOG_ORIGIN } from "./backend";
+import { blogFetch } from "./http";
 import { getPosts } from "./posts";
 
 export interface SearchEntry {
@@ -36,7 +37,7 @@ async function fetchPostContent() {
   const content = new Map<number, string>();
 
   try {
-    const response = await fetch(`${BLOG_ORIGIN}/feed.json`, {
+    const response = await blogFetch(`${BLOG_ORIGIN}/feed.json`, {
       signal: AbortSignal.timeout(8000),
     });
     if (!response.ok) throw new Error(`${response.status}`);

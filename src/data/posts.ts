@@ -1,4 +1,5 @@
 import { BLOG_ORIGIN } from "./backend";
+import { blogFetch } from "./http";
 
 export interface PostCover {
   url: string;
@@ -47,7 +48,7 @@ async function fetchPosts(): Promise<PostSummary[]> {
       url.searchParams.set("limit", "50");
       if (cursor !== null) url.searchParams.set("cursor", String(cursor));
 
-      const response = await fetch(url, {
+      const response = await blogFetch(url, {
         signal: AbortSignal.timeout(8000),
       });
 

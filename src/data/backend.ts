@@ -1,5 +1,6 @@
 import { blogSource } from "../blog.config";
 import { fixedNavigation, type NavItem } from "./navigation";
+import { blogFetch } from "./http";
 
 export type SocialPlatform =
   | "github"
@@ -57,7 +58,7 @@ export function getSiteConfig() {
 
 async function fetchSiteConfig(): Promise<BackendSiteConfig> {
   try {
-    const response = await fetch(`${BLOG_ORIGIN}/api/site/config`, {
+    const response = await blogFetch(`${BLOG_ORIGIN}/api/site/config`, {
       signal: AbortSignal.timeout(5000),
     });
 

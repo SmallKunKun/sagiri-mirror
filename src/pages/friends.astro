@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { BLOG_ORIGIN, getSiteConfig } from "../data/backend";
+import { blogFetch } from "../data/http";
 
 interface FriendLink {
   siteName: string;
@@ -23,7 +24,7 @@ const plateCharacter = (name: string) => {
 
 async function loadFriends(): Promise<FriendLink[]> {
   try {
-    const response = await fetch(`${BLOG_ORIGIN}/api/friend-links`, {
+    const response = await blogFetch(`${BLOG_ORIGIN}/api/friend-links`, {
       signal: AbortSignal.timeout(5000),
     });
     if (!response.ok) throw new Error(`${response.status}`);
