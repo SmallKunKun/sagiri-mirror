@@ -1,4 +1,5 @@
 import { blogSource } from "../blog.config";
+import { navigation, type NavItem } from "./navigation";
 import { site } from "./site";
 
 export type SocialPlatform =
@@ -25,6 +26,7 @@ export interface BackendSiteConfig {
   avatar: string;
   bannerImage: string;
   social: BackendSocialLink[];
+  navLinks: NavItem[];
 }
 
 const env = import.meta.env as Record<string, string | undefined>;
@@ -50,6 +52,7 @@ const FALLBACK_CONFIG: BackendSiteConfig = {
   avatar: site.avatar,
   bannerImage: site.card,
   social: FALLBACK_SOCIAL,
+  navLinks: navigation,
 };
 
 const SOCIAL_LABELS: Record<SocialPlatform, string> = {
@@ -109,7 +112,44 @@ function normalizeConfig(value: unknown): BackendSiteConfig {
     social: Array.isArray(config.social)
       ? config.social.filter(isSocialLink)
       : FALLBACK_SOCIAL,
+    navLinks: normalizeNavLinks(config.navLinks),
   };
+}
+
+function normalizeNavLinks(value: unknown): NavItem[] {
+  if (!Array.isArray(value)) return navigation;
+
+  const links = value
+    .map(toNavItem)
+    .filter((link): link is NavItem => link !== null);
+
+  return links.length > 0 ? links : navigation;
+}
+
+function toNavItem(value: unknown): NavItem | null {
+  if (typeof value !== "object" || value === null) return null;
+  const item = value as Record<string, unknown>;
+  const label = text(item.label);
+  if (!label) return null;
+
+  if (Array.isArray(item.children)) {
+    const children = item.children
+      .map((child) => {
+        if (typeof child !== "object" || child === null) return null;
+        const link = child as Record<string, unknown>;
+        const childLabel = text(link.label);
+        const childHref = text(link.href);
+        return childLabel && childHref
+          ? { label: childLabel, href: childHref }
+          : null;
+      })
+      .filter((child): child is { label: string; href: string } => child !== null);
+
+    return children.length > 0 ? { label, href: "#", children } : null;
+  }
+
+  const href = text(item.href);
+  return href ? { label, href } : null;
 }
 
 function text(value: unknown) {

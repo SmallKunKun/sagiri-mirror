@@ -2,7 +2,6 @@
 import BrandTitle from "./BrandTitle.astro";
 import NavIcon from "./NavIcon.astro";
 import { getSiteConfig } from "../data/backend";
-import { navigation } from "../data/navigation";
 
 const config = await getSiteConfig();
 const isExternal = (href: string) => /^https?:\/\//.test(href);
@@ -12,7 +11,7 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
   <div class="site-nav-bar">
     <nav class="site-nav" aria-label="主导航">
       <ul class="site-menu">
-        {navigation.map((item) => (
+        {config.navLinks.map((item) => (
           <li class:list={["menu-item", { "has-children": item.children?.length }]}>
             {item.children?.length ? (
               <button class="menu-parent" type="button" aria-haspopup="true">
