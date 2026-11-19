@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostList from "../../components/PostList.astro";
+import { getSiteConfig } from "../../data/backend";
+import { getPosts, type PostSummary } from "../../data/posts";
+
+interface Props {
+  tag: string;
+  posts: PostSummary[];
+}
+
+export async function getStaticPaths() {
+  const allPosts = await getPosts();
+  const tags = [...new Set(allPosts.flatMap((post) => post.tags))];
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: allPosts.filter((post) => post.tags.includes(tag)),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props as Props;
+const config = await getSiteConfig();
+---
+
+<BaseLayout title={`标签：${tag} | ${config.title}`}>
+  <h2 class="archive-title">标签：{tag}</h2>
+  <PostList posts={posts} />
+</BaseLayout>

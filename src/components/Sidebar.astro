@@ -12,23 +12,27 @@ const config = await getSiteConfig();
 const socialLinks = config.social;
 const allPosts = await getPosts();
 
-const stats = [
-  { label: "文章", value: String(allPosts.length) },
-  {
-    label: "标签",
-    value: String(new Set(allPosts.flatMap((post) => post.tags)).size),
-  },
-  {
-    label: "分类",
-    value: String(
-      new Set(
-        allPosts
-          .map((post) => post.category)
-          .filter((category) => category !== "未分类"),
-      ).size,
-    ),
-  },
-];
+const categoryCounts = new Map<string, number>();
+for (const post of allPosts) {
+  if (post.category === "未分类") continue;
+  categoryCounts.set(
+    post.category,
+    (categoryCounts.get(post.category) ?? 0) + 1,
+  );
+}
+const categories = [...categoryCounts.entries()].sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+);
+
+const tagCounts = new Map<string, number>();
+for (const post of allPosts) {
+  for (const tag of post.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...tagCounts.entries()].sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+);
 ---
 
 <aside class="site-sidebar">
@@ -63,25 +67,38 @@ const stats = [
   </section>
 
   <section class="sidebar-card">
-    <h3 class="sidebar-title">站点统计</h3>
-    <dl class="site-stats">
-      {stats.map((item) => (
-        <div>
-          <dt>{item.label}</dt>
-          <dd>{item.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <h3 class="sidebar-title">分类</h3>
+    {categories.length > 0 ? (
+      <ul class="sidebar-terms">
+        {categories.map(([name, count]) => (
+          <li>
+            <a href={`/categories/${encodeURIComponent(name)}/`}>
+              <span>{name}</span>
+              <span class="sidebar-count">{count}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="sidebar-muted">暂无分类</p>
+    )}
   </section>
 
   <section class="sidebar-card">
-    <h3 class="sidebar-title">最新文章</h3>
-    <ol class="sidebar-posts">
-      {allPosts.slice(0, 5).map((post) => (
-        <li>
-          <a href={`/post/${post.slug}/`}>{post.title}</a>
-        </li>
-      ))}
-    </ol>
+    <h3 class="sidebar-title">标签</h3>
+    {tags.length > 0 ? (
+      <ul class="sidebar-tags">
+        {tags.map(([name, count]) => (
+          <li>
+            <a href={`/tags/${encodeURIComponent(name)}/`}>
+              #{name}
+              <span class="sidebar-count">{count}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="sidebar-muted">暂无标签</p>
+    )}
   </section>
 </aside>

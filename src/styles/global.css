@@ -825,7 +825,7 @@ p {
   transform: scale(1.05);
 }
 
-.sidebar-posts {
+.sidebar-terms {
   display: grid;
   gap: 8px;
   margin: 0;
@@ -833,16 +833,49 @@ p {
   list-style: none;
 }
 
-.sidebar-posts a {
-  display: block;
+.sidebar-terms a {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
   color: #555;
   font-size: 13px;
   line-height: 1.6;
   transition: color 0.2s ease;
 }
 
-.sidebar-posts a:hover {
+.sidebar-terms a:hover {
   color: var(--hover);
+}
+
+.sidebar-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-tags a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(230, 244, 249, 0.8);
+  color: rgba(0, 0, 0, 0.55);
+  font-size: 12px;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar-tags a:hover {
+  color: var(--hover);
+  transform: scale(1.05);
+}
+
+.sidebar-count {
+  color: #999;
+  font-size: 11px;
 }
 
 .pagination {
@@ -893,6 +926,14 @@ p {
 .page-number.active {
   background: var(--accent);
   color: #fff;
+}
+
+.archive-title {
+  margin: 0 0 40px;
+  color: var(--heading);
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .friends-page {
