@@ -960,6 +960,83 @@ p {
   text-align: center;
 }
 
+.post-rows {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.post-row:hover {
+  border-color: rgba(255, 77, 0, 0.28);
+  box-shadow: 0 6px 18px rgba(51, 68, 95, 0.08);
+}
+
+.post-row-cover {
+  width: 80px;
+  height: 60px;
+  flex: none;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.post-row-plate {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #b7e6f7, #f7c7a8);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.post-row-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.post-row-title {
+  color: var(--heading);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.post-row-summary {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.post-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.post-row-meta time {
+  color: #00a7e0;
+}
+
 .friends-list {
   display: grid;
   gap: 12px;
@@ -1017,6 +1094,15 @@ p {
   .friends-page {
     padding: 28px 18px;
     border-radius: 0;
+  }
+
+  .post-row-cover {
+    width: 64px;
+    height: 48px;
+  }
+
+  .post-row-title {
+    font-size: 15px;
   }
 }
 
