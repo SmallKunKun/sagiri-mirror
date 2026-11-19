@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PostRows from "../components/PostRows.astro";
+import PostCollapse from "../components/PostCollapse.astro";
 import { getSiteConfig } from "../data/backend";
 import { getPosts } from "../data/posts";
 
@@ -9,8 +9,8 @@ const allPosts = await getPosts();
 ---
 
 <BaseLayout title={`文章 | ${config.title}`}>
-  <section class="friends-page">
-    <h2 class="friends-title">文章</h2>
-    <PostRows posts={allPosts} />
+  <section class="posts-page">
+    <h2 class="posts-title">文章</h2>
+    <PostCollapse posts={allPosts} />
   </section>
 </BaseLayout>

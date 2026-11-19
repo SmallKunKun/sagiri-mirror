@@ -1,0 +1,49 @@
+---
+import type { PostSummary } from "../data/posts";
+
+interface Props {
+  posts: PostSummary[];
+}
+
+const { posts } = Astro.props;
+
+const byYear = new Map<string, PostSummary[]>();
+for (const post of posts) {
+  const year = post.publishedAt.slice(0, 4);
+  const group = byYear.get(year) ?? [];
+  group.push(post);
+  byYear.set(year, group);
+}
+
+const groups = [...byYear.entries()]
+  .sort((a, b) => b[0].localeCompare(a[0]))
+  .map(([year, items]) => ({
+    year,
+    posts: items.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)),
+  }));
+---
+
+<div class="posts-collapse">
+  {groups.map(({ year, posts: yearPosts }) => (
+    <div class="collection-year">
+      <div class="collection-title">
+        <h2 class="archive-year">{year}</h2>
+      </div>
+
+      {yearPosts.map((post) => (
+        <article class="post">
+          <header class="post-header">
+            <h2 class="post-title">
+              <a href={`/post/${post.slug}/`}>{post.title}</a>
+            </h2>
+            <div class="post-meta">
+              <time datetime={post.publishedAt}>
+                {post.publishedAt.slice(5, 10)}
+              </time>
+            </div>
+          </header>
+        </article>
+      ))}
+    </div>
+  ))}
+</div>

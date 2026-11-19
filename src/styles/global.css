@@ -939,6 +939,7 @@ p {
   text-align: center;
 }
 
+.posts-page,
 .friends-page {
   padding: 32px 40px;
   border-radius: var(--radius);
@@ -946,12 +947,20 @@ p {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
+.posts-title,
 .friends-title {
-  margin-bottom: 22px;
   color: var(--heading);
   font-size: 25px;
   font-weight: 700;
   text-align: center;
+}
+
+.posts-title {
+  margin-bottom: 30px;
+}
+
+.friends-title {
+  margin-bottom: 22px;
 }
 
 .friends-empty {
@@ -960,80 +969,100 @@ p {
   text-align: center;
 }
 
-.post-rows {
-  display: grid;
-  gap: 12px;
+.posts-collapse {
+  position: relative;
+  margin-left: 55px;
+}
+
+.posts-collapse .collection-year {
+  position: relative;
+}
+
+.posts-collapse .collection-year::after {
+  content: "";
+  position: absolute;
+  top: 78px;
+  bottom: 13px;
+  left: -2px;
+  width: 4px;
+  background: rgba(151, 223, 253, 0.1);
+  z-index: -1;
+}
+
+.posts-collapse .collection-title {
+  position: relative;
+  margin: 30px 0;
+}
+
+.posts-collapse .archive-year {
+  margin: 0;
+  color: #555;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+}
+
+.posts-collapse .post {
+  position: relative;
   margin: 0;
   padding: 0;
-  list-style: none;
+  background: none;
 }
 
-.post-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+.posts-collapse .post-header {
+  position: relative;
+  margin-bottom: 10px;
+  line-height: 28px;
+}
+
+.posts-collapse .post-header::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  margin-left: -4px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: background 0.2s ease;
+}
+
+.posts-collapse .post-title {
+  margin: 0 0 0 70px;
+  color: #555;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: inherit;
+  text-align: left;
+}
+
+.posts-collapse .post-title a {
+  display: inline-block;
+  color: #666;
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    color 0.2s ease,
+    transform 0.3s ease;
 }
 
-.post-row:hover {
-  border-color: rgba(255, 77, 0, 0.28);
-  box-shadow: 0 6px 18px rgba(51, 68, 95, 0.08);
+.posts-collapse .post-title a:hover {
+  color: #222;
+  transform: scale(1.1);
 }
 
-.post-row-cover {
-  width: 80px;
-  height: 60px;
-  flex: none;
-  border-radius: 4px;
-  object-fit: cover;
-}
-
-.post-row-plate {
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, #b7e6f7, #f7c7a8);
-  color: #fff;
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.post-row-main {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.post-row-title {
-  color: var(--heading);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.5;
-}
-
-.post-row-summary {
-  overflow: hidden;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.post-row-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  color: var(--muted);
+.posts-collapse .post-meta {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  margin: 0;
+  color: #00a7e0;
   font-size: 12px;
+  line-height: 28px;
+  text-align: left;
 }
 
-.post-row-meta time {
+.posts-collapse .post-meta time {
   color: #00a7e0;
 }
 
@@ -1091,18 +1120,29 @@ p {
 }
 
 @media (max-width: 991px) {
+  .posts-page,
   .friends-page {
     padding: 28px 18px;
     border-radius: 0;
   }
 
-  .post-row-cover {
-    width: 64px;
-    height: 48px;
+  .posts-collapse {
+    margin: 0 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .posts-collapse .post-title,
+  .posts-collapse .post-meta {
+    position: static;
+    display: block;
+    width: auto;
+    margin-left: 0;
+    text-align: left;
   }
 
-  .post-row-title {
-    font-size: 15px;
+  .posts-collapse .post-meta {
+    margin: 0 0 4px;
   }
 }
 
