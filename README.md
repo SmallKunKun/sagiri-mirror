@@ -101,6 +101,24 @@ Fork 本项目，或者直接使用本仓库。
 GitHub Actions
 ```
 
+#### 可选：用 PAT 自动启用 Pages
+
+如果不想手动打开 Pages，可以在 **Settings → Secrets and variables → Actions → Secrets** 中新建：
+
+```text
+PAGES_TOKEN
+```
+
+Token 要求：
+
+- Classic PAT：勾选 `repo` scope
+- Fine-grained PAT：授予 `Pages` 写权限和 `Administration` 写权限，并授权当前仓库
+
+workflow 检测到 `PAGES_TOKEN` 后会把它传给 `configure-pages` 并开启自动启用；没有这个 secret 时继续使用 `GITHUB_TOKEN`，需要手动启用 Pages。
+
+> [!IMPORTANT]
+> PAT 只用于创建和配置 Pages 站点；实际部署仍然使用 `GITHUB_TOKEN` 和 OIDC。
+
 ### 3. 运行部署
 
 打开 **Actions → Sync and deploy → Run workflow**。
@@ -206,6 +224,7 @@ npm run preview
 | `src/blog.config.ts` → `blogSource.origin` | 默认远端博客地址 |
 | `src/blog.config.ts` → `footerConfig` | 页脚运行时间、ICP 备案、Made with 文案 |
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖默认远端博客地址 |
+| `PAGES_TOKEN` Actions Secret | 可选，用 PAT 自动创建和配置 Pages 站点 |
 | `BASE_PATH` | 部署子路径，GitHub Actions 自动设置 |
 | `SITE_ORIGIN` | 站点 origin，GitHub Actions 自动设置 |
 | `src/data/navigation.ts` | 首页 / 文章 / 友链固定导航 |
