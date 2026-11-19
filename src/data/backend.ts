@@ -152,13 +152,32 @@ function toNavItem(value: unknown): NavItem | null {
           ? { label: childLabel, href: childHref }
           : null;
       })
-      .filter((child): child is { label: string; href: string } => child !== null);
+      .filter(
+        (child): child is { label: string; href: string } => child !== null,
+      );
 
-    return children.length > 0 ? { label, href: "#", children } : null;
+    return children.length > 0
+      ? { label, href: "#", icon: iconForLabel(label), children }
+      : null;
   }
 
   const href = text(item.href);
-  return href ? { label, href } : null;
+  return href ? { label, href, icon: iconForLabel(label) } : null;
+}
+
+function iconForLabel(label: string) {
+  const icons: Record<string, string> = {
+    首页: "home",
+    文章: "archive",
+    归档: "archive",
+    友链: "heart",
+    后宫: "heart",
+    关于: "user",
+    关于我: "user",
+    实验室: "flask",
+    留言板: "message",
+  };
+  return icons[label];
 }
 
 function text(value: unknown) {

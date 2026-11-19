@@ -144,6 +144,8 @@ p {
 .menu-icon {
   display: none;
   flex: none;
+  font-size: 16px;
+  line-height: 1;
 }
 
 .menu-search {
@@ -1032,7 +1034,7 @@ p {
 
 @media (min-width: 992px) {
   .menu-icon {
-    display: block;
+    display: inline-block;
   }
 }
 
