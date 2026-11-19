@@ -32,23 +32,19 @@ const year = new Date().getFullYear();
         Sagiri
       </a>
       .
+      {footerConfig.icp ? (
+        <span class="footer-icp">
+          {" "}
+          {footerConfig.icpUrl ? (
+            <a href={footerConfig.icpUrl} target="_blank" rel="noreferrer">
+              {footerConfig.icp}
+            </a>
+          ) : (
+            footerConfig.icp
+          )}
+        </span>
+      ) : null}
     </p>
-
-    {footerConfig.icp ? (
-      <p class="footer-icp">
-        {footerConfig.icpUrl ? (
-          <a
-            href={footerConfig.icpUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {footerConfig.icp}
-          </a>
-        ) : (
-          footerConfig.icp
-        )}
-      </p>
-    ) : null}
 
     <p class="footer-made">
       Made with <span class="footer-heart" aria-hidden="true">♥</span> by{" "}

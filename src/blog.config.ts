@@ -15,7 +15,7 @@ export const footerConfig = {
   /** 博客开始运行的时间，用于「博客已萌萌哒运行…」计时。留空则不显示。 */
   since: "1970-01-01T00:00:00+08:00",
   /** ICP 备案号。留空则不显示。 */
-  icp: "备案号",
+  icp: "备案号.",
   /** ICP 链接，例如 https://beian.miit.gov.cn/。留空则只显示文字。 */
   icpUrl: "https://example.com/icp",
   /** Made with ♥ by 后面的名字。留空使用站点作者。 */
