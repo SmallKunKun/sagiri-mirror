@@ -625,22 +625,29 @@ p {
 }
 
 .post-title {
-  margin-bottom: 5px;
+  margin: 0;
   color: var(--heading);
-  font-size: 24px;
+  font-size: 25px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.5;
   text-align: center;
   word-break: break-word;
 }
 
 .post-title a {
+  display: inline-block;
+  position: relative;
   color: inherit;
-  transition: color 0.2s ease;
+  line-height: 1.2;
+  vertical-align: top;
+  transition:
+    transform 0.3s ease,
+    color 0.2s ease;
 }
 
 .post-title a:hover {
   color: var(--link);
+  transform: scale(1.1);
 }
 
 .post-meta {
@@ -889,10 +896,6 @@ p {
   .post-date,
   .post-badge {
     display: none;
-  }
-
-  .post-title {
-    font-size: 22px;
   }
 
   .post-meta {
