@@ -651,13 +651,35 @@ p {
 }
 
 .post-meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
+  display: block;
   margin: 5px 0 60px;
-  color: #555;
+  color: #00a7e0;
   font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.post-time {
+  display: inline;
+}
+
+.post-meta-icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 3px;
+  vertical-align: -1px;
+}
+
+.post-meta-label {
+  display: none;
+  margin-right: 4px;
+}
+
+@media (min-width: 992px) {
+  .post-meta-label {
+    display: inline;
+  }
 }
 
 .post-summary {
@@ -899,7 +921,7 @@ p {
   }
 
   .post-meta {
-    margin-bottom: 20px;
+    margin: 10px 0 20px;
   }
 
   .pagination {

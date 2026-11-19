@@ -9,12 +9,7 @@ const { posts } = Astro.props;
 
 const monthOf = (iso: string) => `${new Date(iso).getMonth() + 1}月`;
 const dayOf = (iso: string) => String(new Date(iso).getDate()).padStart(2, "0");
-const dateOf = (iso: string) =>
-  new Intl.DateTimeFormat("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date(iso));
+const dateOf = (iso: string) => iso.slice(0, 10);
 ---
 
 <section class="post-list" aria-label="文章列表">
@@ -35,9 +30,26 @@ const dateOf = (iso: string) =>
         </h2>
 
         <div class="post-meta">
-          <time datetime={post.publishedAt}>{dateOf(post.publishedAt)}</time>
-          <span aria-hidden="true">·</span>
-          <span>{post.readingTime} 分钟阅读</span>
+          <span class="post-time">
+            <svg
+              class="post-meta-icon"
+              viewBox="0 0 24 24"
+              width="12"
+              height="12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+              <path d="M3 10h18M8 3v4M16 3v4"></path>
+            </svg>
+            <span class="post-meta-label">发表于</span>
+            <time datetime={post.publishedAt} title="创建于">
+              {dateOf(post.publishedAt)}
+            </time>
+          </span>
         </div>
 
         <p class="post-summary">{post.summary}</p>
