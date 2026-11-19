@@ -1,5 +1,6 @@
 ---
 import SocialIcon from "./SocialIcon.astro";
+import type { TocItem } from "../data/article";
 import {
   getSiteConfig,
   resolveSocialHref,
@@ -8,6 +9,11 @@ import {
 } from "../data/backend";
 import { getPosts } from "../data/posts";
 
+interface Props {
+  toc?: TocItem[];
+}
+
+const { toc = [] } = Astro.props;
 const config = await getSiteConfig();
 const socialLinks = config.social;
 const allPosts = await getPosts();
@@ -36,6 +42,19 @@ const tags = [...tagCounts.entries()].sort(
 ---
 
 <aside class="site-sidebar">
+  {toc.length > 1 ? (
+    <section class="sidebar-card">
+      <h3 class="sidebar-title">目录</h3>
+      <ul class="post-toc">
+        {toc.map((item) => (
+          <li class={`post-toc-level-${item.level}`}>
+            <a href={`#${item.id}`}>{item.text}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ) : null}
+
   <section class="sidebar-card author-card">
     <div class="author-profile">
       <div

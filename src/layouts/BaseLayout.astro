@@ -2,16 +2,22 @@
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Sidebar from "../components/Sidebar.astro";
+import type { TocItem } from "../data/article";
 import { getSiteConfig } from "../data/backend";
 import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
+  toc?: TocItem[];
 }
 
 const config = await getSiteConfig();
-const { title = config.title, description = config.description } = Astro.props;
+const {
+  title = config.title,
+  description = config.description,
+  toc,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -36,7 +42,7 @@ const { title = config.title, description = config.description } = Astro.props;
         <main id="main" class="site-main">
           <slot />
         </main>
-        <Sidebar />
+        <Sidebar toc={toc} />
       </div>
       <SiteFooter />
     </div>
