@@ -930,6 +930,9 @@ p {
 
 .archive-title {
   margin: 0 0 40px;
+  padding: 15px 0;
+  border-radius: var(--radius);
+  background: var(--card);
   color: var(--heading);
   font-size: 25px;
   font-weight: 700;
@@ -1141,6 +1144,11 @@ p {
 
   .post-meta {
     margin: 10px 0 20px;
+  }
+
+  .archive-title {
+    margin: 0 0 20px;
+    border-radius: 0;
   }
 
   .pagination {
