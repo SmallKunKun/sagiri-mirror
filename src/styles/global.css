@@ -1130,31 +1130,66 @@ p {
 }
 
 .post-nav {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 20px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-  font-size: 13px;
+  display: table;
+  width: 100%;
+  margin-top: 15px;
+  border-top: 1px solid #eee;
 }
 
-.post-nav a {
-  max-width: 48%;
-  overflow: hidden;
-  color: #666;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.post-nav-divider {
+  display: table-cell;
+  width: 10%;
+}
+
+.post-nav-item {
+  display: table-cell;
+  width: 45%;
+  padding: 40px 0 0;
+  vertical-align: top;
+}
+
+.post-nav-item a {
+  position: relative;
+  display: block;
+  border-bottom: none;
+  color: #555;
+  font-size: 14px;
+  line-height: 25px;
   transition: color 0.2s ease;
 }
 
-.post-nav a:hover {
-  color: var(--hover);
+.post-nav-item a:hover {
+  border-bottom: none;
+  color: #ff4d00;
 }
 
-.post-nav-next {
-  margin-left: auto;
+.post-nav-item a:active {
+  top: 2px;
+}
+
+.post-nav-item .fa {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  font-size: 12px;
+  transform: translateY(-50%);
+}
+
+.post-nav-next a {
+  padding-left: 15px;
+}
+
+.post-nav-prev {
   text-align: right;
+}
+
+.post-nav-prev a {
+  padding-right: 15px;
+}
+
+.post-nav-prev .fa {
+  right: 0;
+  left: auto;
 }
 
 .post-toc {
@@ -1471,6 +1506,10 @@ p {
 
   .posts-collapse .post-meta {
     margin: 0 0 4px;
+  }
+
+  .post-nav {
+    padding-bottom: 2px;
   }
 }
 

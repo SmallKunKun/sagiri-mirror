@@ -129,20 +129,25 @@ const showCover = Boolean(post.cover && firstImage !== post.cover.url);
     ) : null}
 
     {newer || older ? (
-      <nav class="post-nav" aria-label="相邻文章">
-        {older ? (
-          <a class="post-nav-prev" href={`/post/${older.slug}/`}>
-            ← {older.title}
-          </a>
-        ) : (
-          <span></span>
-        )}
-        {newer ? (
-          <a class="post-nav-next" href={`/post/${newer.slug}/`}>
-            {newer.title} →
-          </a>
-        ) : null}
-      </nav>
+      <div class="post-nav">
+        <div class="post-nav-next post-nav-item">
+          {older ? (
+            <a href={`/post/${older.slug}/`} rel="next" title={older.title}>
+              <i class="fas fa-angle-left"></i> {older.title}
+            </a>
+          ) : null}
+        </div>
+
+        <span class="post-nav-divider"></span>
+
+        <div class="post-nav-prev post-nav-item">
+          {newer ? (
+            <a href={`/post/${newer.slug}/`} rel="prev" title={newer.title}>
+              {newer.title} <i class="fas fa-angle-right"></i>
+            </a>
+          ) : null}
+        </div>
+      </div>
     ) : null}
   </article>
 </BaseLayout>
