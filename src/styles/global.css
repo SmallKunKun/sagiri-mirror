@@ -372,7 +372,6 @@ p {
   padding: 5px;
   border: 2px dashed #fff;
   border-radius: 100%;
-  background-color: #b7e6f7;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
