@@ -22,7 +22,33 @@ const year = new Date().getFullYear();
 
     <p>© {year} {config.author}. 由 Astro 强力驱动. Theme By Sagiri.</p>
 
-    {footerConfig.icp ? <p class="footer-icp">{footerConfig.icp}</p> : null}
+    {footerConfig.icp ? (
+      <p class="footer-icp">
+        {footerConfig.icpUrl ? (
+          <a
+            href={footerConfig.icpUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {footerConfig.icp}
+          </a>
+        ) : (
+          footerConfig.icp
+        )}
+      </p>
+    ) : null}
+
+    <p class="footer-made">
+      Made with <span class="footer-heart" aria-hidden="true">♥</span> by{" "}
+      {footerConfig.madeByUrl ? (
+        <a href={footerConfig.madeByUrl} target="_blank" rel="noreferrer">
+          {footerConfig.madeBy || config.author}
+        </a>
+      ) : (
+        footerConfig.madeBy || config.author
+      )}
+      .
+    </p>
   </div>
 </footer>
 

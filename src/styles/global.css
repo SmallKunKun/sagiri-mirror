@@ -1213,10 +1213,25 @@ p {
   color: #fff;
 }
 
+.site-footer a {
+  color: #aaa;
+  transition: color 0.2s ease;
+}
+
+.site-footer a:hover {
+  color: #fff;
+}
+
 .my-face {
   display: inline-block;
   margin-left: 5px;
   animation: my-face 5s infinite ease-in-out;
+}
+
+.footer-heart {
+  display: inline-block;
+  color: #d43f57;
+  animation: footer-heart 1.2s ease-in-out infinite;
 }
 
 @keyframes my-face {
@@ -1227,6 +1242,17 @@ p {
 
   50% {
     transform: translateY(1.5px);
+  }
+}
+
+@keyframes footer-heart {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
   }
 }
 
