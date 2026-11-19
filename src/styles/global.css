@@ -532,20 +532,39 @@ p {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  margin: 0 0 10px;
 }
 
 .author-social a {
-  padding: 3px 9px;
+  display: inline-flex;
+  min-width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
   border-radius: 15px;
   background: rgba(230, 244, 249, 0.8);
   color: rgba(0, 0, 0, 0.5);
-  font-size: 11px;
-  transition: color 0.2s ease;
+  font-size: 12px;
+  transition: all 0.3s ease-in-out;
 }
 
 .author-social a:hover {
   color: var(--hover);
+  transform: scale(1.1);
+}
+
+.author-social svg {
+  width: 16px;
+  height: 16px;
+}
+
+.author-social img {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .sidebar-title {

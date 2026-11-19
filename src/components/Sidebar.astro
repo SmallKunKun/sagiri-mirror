@@ -1,6 +1,15 @@
 ---
+import SocialIcon from "./SocialIcon.astro";
+import {
+  getBackendSocialLinks,
+  resolveSocialHref,
+  resolveSocialIcon,
+  socialLabel,
+} from "../data/backend";
 import { site } from "../data/site";
 import { posts } from "../data/posts";
+
+const socialLinks = await getBackendSocialLinks();
 
 const stats = [
   { label: "文章", value: String(posts.length) },
@@ -28,8 +37,19 @@ const stats = [
     </div>
 
     <div class="author-social">
-      {site.social.map((item) => (
-        <a href={item.href} target="_blank" rel="noreferrer">{item.label}</a>
+      {socialLinks.map((link) => (
+        <a
+          href={resolveSocialHref(link)}
+          target={link.platform === "email" ? undefined : "_blank"}
+          rel={link.platform === "email" ? undefined : "me noreferrer"}
+          aria-label={socialLabel(link)}
+        >
+          <SocialIcon
+            platform={link.platform}
+            icon={resolveSocialIcon(link)}
+            label={socialLabel(link)}
+          />
+        </a>
       ))}
     </div>
   </section>
