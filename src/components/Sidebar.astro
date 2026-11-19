@@ -1,5 +1,18 @@
 ---
 import { site } from "../data/site";
+import { posts } from "../data/posts";
+
+const stats = [
+  { label: "文章", value: String(posts.length) },
+  {
+    label: "标签",
+    value: String(new Set(posts.flatMap((post) => post.tags)).size),
+  },
+  {
+    label: "分类",
+    value: String(new Set(posts.map((post) => post.category)).size),
+  },
+];
 ---
 
 <aside class="site-sidebar">
@@ -18,7 +31,7 @@ import { site } from "../data/site";
   <section class="sidebar-card">
     <h3 class="sidebar-title">站点统计</h3>
     <dl class="site-stats">
-      {site.stats.map((item) => (
+      {stats.map((item) => (
         <div>
           <dt>{item.label}</dt>
           <dd>{item.value}</dd>

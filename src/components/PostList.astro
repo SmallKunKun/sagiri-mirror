@@ -1,0 +1,53 @@
+---
+import type { PostSummary } from "../data/posts";
+
+interface Props {
+  posts: PostSummary[];
+}
+
+const { posts } = Astro.props;
+
+const monthOf = (iso: string) => `${new Date(iso).getMonth() + 1}月`;
+const dayOf = (iso: string) => String(new Date(iso).getDate()).padStart(2, "0");
+const dateOf = (iso: string) =>
+  new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(iso));
+---
+
+<section class="post-list" aria-label="文章列表">
+  {posts.map((post) => (
+    <article class="post-card">
+      <div class="post-date" aria-hidden="true">
+        <span class="post-month">{monthOf(post.publishedAt)}</span>
+        <span class="post-day">{dayOf(post.publishedAt)}</span>
+      </div>
+
+      <div class="post-main">
+        <a class="post-badge" href={`/categories/${encodeURIComponent(post.category)}/`}>
+          {post.category}
+        </a>
+
+        <h2 class="post-title">
+          <a href={`/post/${post.slug}/`}>{post.title}</a>
+        </h2>
+
+        <div class="post-meta">
+          <time datetime={post.publishedAt}>{dateOf(post.publishedAt)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{post.readingTime} 分钟阅读</span>
+        </div>
+
+        <p class="post-summary">{post.summary}</p>
+
+        <div class="post-tags">
+          {post.tags.map((tag) => (
+            <a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>
+          ))}
+        </div>
+      </div>
+    </article>
+  ))}
+</section>
