@@ -595,14 +595,15 @@ p {
 
 .post-badge {
   position: absolute;
-  top: 95px;
-  left: -22px;
+  top: 105px;
+  left: -16px;
   display: inline-block;
-  padding: 6px 9px 6px 22px;
+  margin: 5px 0 15px 2px;
+  padding: 7px 11px 7px 32px;
   border-radius: 0 4px 4px 0;
   background: var(--accent);
   color: #fff;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1;
   box-shadow:
     0 2px 2px 0 rgba(0, 0, 0, 0.14),
@@ -618,7 +619,7 @@ p {
   width: 0;
   height: 0;
   border-top: 0 solid transparent;
-  border-right: 1em solid var(--accent);
+  border-right: 1em solid var(--accent-deep);
   border-bottom: 1em solid transparent;
   border-left: 0 solid transparent;
 }
