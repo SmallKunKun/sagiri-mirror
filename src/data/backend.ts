@@ -1,6 +1,5 @@
 import { blogSource } from "../blog.config";
 import { fixedNavigation, type NavItem } from "./navigation";
-import { site } from "./site";
 
 export type SocialPlatform =
   | "github"
@@ -38,23 +37,6 @@ export const BLOG_ORIGIN = (
   blogSource.origin
 ).replace(/\/$/, "");
 
-const FALLBACK_SOCIAL: BackendSocialLink[] = [
-  { platform: "github", url: "https://github.com/your-name" },
-  { platform: "email", url: "mailto:you@example.com" },
-  { platform: "rss", url: "/rss.xml" },
-];
-
-const FALLBACK_CONFIG: BackendSiteConfig = {
-  title: site.title,
-  author: site.author,
-  description: site.description,
-  tagline: site.tagline,
-  avatar: site.avatar,
-  bannerImage: site.card,
-  social: FALLBACK_SOCIAL,
-  navLinks: fixedNavigation,
-};
-
 const SOCIAL_LABELS: Record<SocialPlatform, string> = {
   github: "GitHub",
   twitter: "Twitter / X",
@@ -85,11 +67,11 @@ async function fetchSiteConfig(): Promise<BackendSiteConfig> {
 
     return normalizeConfig(await response.json());
   } catch (error) {
-    console.warn(
-      `[site-config] Could not read ${BLOG_ORIGIN}/api/site/config; using fallback config.`,
-      error,
+    throw new Error(
+      `[site-config] Could not read ${BLOG_ORIGIN}/api/site/config: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
     );
-    return FALLBACK_CONFIG;
   }
 }
 
@@ -99,19 +81,19 @@ function normalizeConfig(value: unknown): BackendSiteConfig {
       ? (value as Record<string, unknown>)
       : {};
 
-  const description = text(config.description) || site.description;
-  const tagline = text(config.tagline) || text(config.description) || site.tagline;
+  const description = text(config.description);
+  const tagline = text(config.tagline) || description;
 
   return {
-    title: text(config.title) || site.title,
-    author: text(config.author) || site.author,
+    title: text(config.title),
+    author: text(config.author),
     description,
     tagline,
-    avatar: resolveAsset(config.avatar) || site.avatar,
-    bannerImage: resolveAsset(config.bannerImage) || site.card,
+    avatar: resolveAsset(config.avatar) ?? "",
+    bannerImage: resolveAsset(config.bannerImage) ?? "",
     social: Array.isArray(config.social)
       ? config.social.filter(isSocialLink)
-      : FALLBACK_SOCIAL,
+      : [],
     navLinks: normalizeNavLinks(config.navLinks),
   };
 }
