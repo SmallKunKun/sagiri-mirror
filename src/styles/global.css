@@ -917,9 +917,8 @@ p {
   display: block;
   max-width: 100%;
   height: auto;
-  margin: 0 auto 20px;
-  padding: 3px;
-  border-radius: 0;
+  margin: 20px auto;
+  border-radius: var(--radius);
 }
 
 .post-body-single {
