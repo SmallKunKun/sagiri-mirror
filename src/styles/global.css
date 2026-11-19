@@ -1112,8 +1112,10 @@ p {
   position: absolute;
   top: 15px;
   left: 15px;
+  box-sizing: border-box;
   width: 60px;
   height: 60px;
+  padding: 3px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -1131,9 +1133,10 @@ p {
   overflow: hidden;
   margin: 0;
   padding-top: 20px;
-  color: var(--heading);
+  color: #555;
   font-size: 16px;
   font-weight: 600;
+  line-height: 24px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1141,8 +1144,8 @@ p {
 .friends-list p {
   overflow: hidden;
   margin: 10px 0;
-  color: var(--muted);
-  font-size: 13px;
+  color: #555;
+  font-size: 14px;
   line-height: 24px;
   text-overflow: ellipsis;
   white-space: nowrap;
