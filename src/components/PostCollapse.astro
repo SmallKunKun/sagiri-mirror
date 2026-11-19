@@ -1,5 +1,6 @@
 ---
 import type { PostSummary } from "../data/posts";
+import { withBase } from "../utils/url";
 
 interface Props {
   posts: PostSummary[];
@@ -34,7 +35,7 @@ const groups = [...byYear.entries()]
         <article class="post">
           <header class="post-header">
             <h2 class="post-title">
-              <a href={`/post/${post.slug}/`}>{post.title}</a>
+              <a href={withBase(`/post/${post.slug}/`)}>{post.title}</a>
             </h2>
             <div class="post-meta">
               <time datetime={post.publishedAt}>

@@ -2,9 +2,11 @@
 import BrandTitle from "./BrandTitle.astro";
 import NavIcon from "./NavIcon.astro";
 import { getSiteConfig } from "../data/backend";
+import { withBase } from "../utils/url";
 
 const config = await getSiteConfig();
 const isExternal = (href: string) => /^https?:\/\//.test(href);
+const hrefOf = (href: string) => (isExternal(href) ? href : withBase(href));
 ---
 
 <header class="site-header">
@@ -20,7 +22,7 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
               </button>
             ) : (
               <a
-                href={item.href}
+                href={hrefOf(item.href)}
                 target={isExternal(item.href) ? "_blank" : undefined}
                 rel={isExternal(item.href) ? "noreferrer" : undefined}
               >
@@ -34,7 +36,7 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
                 {item.children.map((child) => (
                   <li>
                     <a
-                      href={child.href}
+                      href={hrefOf(child.href)}
                       target={isExternal(child.href) ? "_blank" : undefined}
                       rel={isExternal(child.href) ? "noreferrer" : undefined}
                     >
@@ -48,7 +50,12 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
         ))}
 
         <li class="menu-item menu-search">
-          <form class="search-form" action="/search/" method="get" role="search">
+          <form
+            class="search-form"
+            action={withBase("/search/")}
+            method="get"
+            role="search"
+          >
             <label class="sr-only" for="site-search">站内搜索</label>
             <input
               id="site-search"

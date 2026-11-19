@@ -2,6 +2,7 @@
 import AuthorCard from "./AuthorCard.astro";
 import type { TocItem } from "../data/article";
 import { getPosts } from "../data/posts";
+import { withBase } from "../utils/url";
 
 interface Props {
   toc?: TocItem[];
@@ -83,7 +84,7 @@ const tags = [...tagCounts.entries()].sort(
           <ul class="sidebar-terms">
             {categories.map(([name, count]) => (
               <li>
-                <a href={`/categories/${encodeURIComponent(name)}/`}>
+                <a href={withBase(`/categories/${encodeURIComponent(name)}/`)}>
                   <span>{name}</span>
                   <span class="sidebar-count">{count}</span>
                 </a>
@@ -101,7 +102,7 @@ const tags = [...tagCounts.entries()].sort(
           <ul class="sidebar-tags">
             {tags.map(([name, count]) => (
               <li>
-                <a href={`/tags/${encodeURIComponent(name)}/`}>
+                <a href={withBase(`/tags/${encodeURIComponent(name)}/`)}>
                   #{name}
                   <span class="sidebar-count">{count}</span>
                 </a>

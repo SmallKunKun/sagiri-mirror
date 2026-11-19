@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import type { SearchEntry } from "../data/search";
+import { withBase } from "../utils/url";
 
 interface Props {
   entries: SearchEntry[];
@@ -93,7 +94,7 @@ onMounted(() => {
 
     <ul v-else class="search-results">
       <li v-for="{ entry } in results" :key="entry.slug">
-        <a :href="`/post/${entry.slug}/`">
+        <a :href="withBase(`/post/${entry.slug}/`)">
           <h2 v-html="highlight(entry.title)"></h2>
           <p v-html="highlight(snippet(entry))"></p>
           <div class="search-meta">

@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getSiteConfig } from "../../data/backend";
 import { getArticleContent } from "../../data/article";
 import { getPosts, type PostSummary } from "../../data/posts";
+import { withBase } from "../../utils/url";
 
 interface Props {
   post: PostSummary;
@@ -47,7 +48,7 @@ const showCover = Boolean(post.cover && firstImage !== post.cover.url);
     {post.category !== "未分类" ? (
       <a
         class="post-badge"
-        href={`/categories/${encodeURIComponent(post.category)}/`}
+        href={withBase(`/categories/${encodeURIComponent(post.category)}/`)}
       >
         {post.category}
       </a>
@@ -119,7 +120,10 @@ const showCover = Boolean(post.cover && firstImage !== post.cover.url);
           {post.tags.map((tag, index) => (
             <>
               {index > 0 ? " " : null}
-              <a href={`/tags/${encodeURIComponent(tag)}/`} rel="tag">
+              <a
+                href={withBase(`/tags/${encodeURIComponent(tag)}/`)}
+                rel="tag"
+              >
                 # {tag}
               </a>
             </>
@@ -132,7 +136,11 @@ const showCover = Boolean(post.cover && firstImage !== post.cover.url);
       <div class="post-nav">
         <div class="post-nav-next post-nav-item">
           {older ? (
-            <a href={`/post/${older.slug}/`} rel="next" title={older.title}>
+            <a
+              href={withBase(`/post/${older.slug}/`)}
+              rel="next"
+              title={older.title}
+            >
               <i class="fas fa-angle-left"></i> {older.title}
             </a>
           ) : null}
@@ -142,7 +150,11 @@ const showCover = Boolean(post.cover && firstImage !== post.cover.url);
 
         <div class="post-nav-prev post-nav-item">
           {newer ? (
-            <a href={`/post/${newer.slug}/`} rel="prev" title={newer.title}>
+            <a
+              href={withBase(`/post/${newer.slug}/`)}
+              rel="prev"
+              title={newer.title}
+            >
               {newer.title} <i class="fas fa-angle-right"></i>
             </a>
           ) : null}

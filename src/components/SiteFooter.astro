@@ -1,6 +1,7 @@
 ---
 import { footerConfig } from "../blog.config";
 import { getSiteConfig } from "../data/backend";
+import { withBase } from "../utils/url";
 
 const config = await getSiteConfig();
 const year = new Date().getFullYear();
@@ -8,7 +9,7 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="footer-image" aria-hidden="true">
-    <img src="/images/footer.png" alt="" />
+    <img src={withBase("/images/footer.png")} alt="" />
   </div>
 
   <div class="footer-inner">
