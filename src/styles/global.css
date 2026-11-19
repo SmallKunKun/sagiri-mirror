@@ -915,11 +915,11 @@ p {
 
 .post-single-cover {
   display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  margin-bottom: 24px;
-  border-radius: var(--radius);
-  object-fit: cover;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 20px;
+  padding: 3px;
+  border-radius: 0;
 }
 
 .post-body-single {
