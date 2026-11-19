@@ -458,6 +458,29 @@ p {
   line-height: 1.9;
 }
 
+.post-more {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.post-more-button {
+  display: inline-block;
+  padding: 1px 15px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.3s ease;
+}
+
+.post-more-button:hover {
+  background: #7fd3f5;
+  color: #fff;
+  transform: scale(1.05);
+}
+
 .post-tags {
   display: flex;
   flex-wrap: wrap;
@@ -471,6 +494,26 @@ p {
 }
 
 .post-tags a:hover {
+  color: var(--hover);
+}
+
+.sidebar-posts {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-posts a {
+  display: block;
+  color: #555;
+  font-size: 13px;
+  line-height: 1.6;
+  transition: color 0.2s ease;
+}
+
+.sidebar-posts a:hover {
   color: var(--hover);
 }
 

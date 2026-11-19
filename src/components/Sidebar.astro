@@ -43,7 +43,13 @@ const stats = [
   </section>
 
   <section class="sidebar-card">
-    <h3 class="sidebar-title">目录</h3>
-    <p class="sidebar-muted">文章页会在这里显示目录。</p>
+    <h3 class="sidebar-title">最新文章</h3>
+    <ol class="sidebar-posts">
+      {posts.slice(0, 5).map((post) => (
+        <li>
+          <a href={`/post/${post.slug}/`}>{post.title}</a>
+        </li>
+      ))}
+    </ol>
   </section>
 </aside>

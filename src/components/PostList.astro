@@ -42,10 +42,10 @@ const dateOf = (iso: string) =>
 
         <p class="post-summary">{post.summary}</p>
 
-        <div class="post-tags">
-          {post.tags.map((tag) => (
-            <a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>
-          ))}
+        <div class="post-more">
+          <a class="post-more-button" href={`/post/${post.slug}/`}>
+            阅读全文 &raquo;
+          </a>
         </div>
       </div>
     </article>
