@@ -17,7 +17,7 @@ export const footerConfig = {
   /** ICP 备案号。留空则不显示。 */
   icp: "备案号.",
   /** ICP 链接，例如 https://beian.miit.gov.cn/。留空则只显示文字。 */
-  icpUrl: "",
+  icpUrl: "https://example.com/icp",
   /** Made with ♥ by 后面的名字。留空使用站点作者。 */
   madeBy: "",
   /** Made with 名字的链接。留空则不链接。 */

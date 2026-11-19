@@ -1214,12 +1214,13 @@ p {
 }
 
 .site-footer a {
-  color: #aaa;
+  color: #ab3300;
+  text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .site-footer a:hover {
-  color: #fff;
+  color: #ff4d00;
 }
 
 .my-face {
