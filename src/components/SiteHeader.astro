@@ -1,13 +1,16 @@
 ---
 import NavIcon from "./NavIcon.astro";
+import { navigation } from "../data/navigation";
 import { site } from "../data/site";
+
+const isExternal = (href: string) => /^https?:\/\//.test(href);
 ---
 
 <header class="site-header">
   <div class="site-nav-bar">
     <nav class="site-nav" aria-label="主导航">
       <ul class="site-menu">
-        {site.nav.map((item) => (
+        {navigation.map((item) => (
           <li class:list={["menu-item", { "has-children": item.children?.length }]}>
             {item.children?.length ? (
               <button class="menu-parent" type="button" aria-haspopup="true">
@@ -15,7 +18,11 @@ import { site } from "../data/site";
                 {item.label}
               </button>
             ) : (
-              <a href={item.href}>
+              <a
+                href={item.href}
+                target={isExternal(item.href) ? "_blank" : undefined}
+                rel={isExternal(item.href) ? "noreferrer" : undefined}
+              >
                 {item.icon ? <NavIcon name={item.icon} /> : null}
                 {item.label}
               </a>
@@ -25,7 +32,11 @@ import { site } from "../data/site";
               <ul class="submenu">
                 {item.children.map((child) => (
                   <li>
-                    <a href={child.href} target="_blank" rel="noreferrer">
+                    <a
+                      href={child.href}
+                      target={isExternal(child.href) ? "_blank" : undefined}
+                      rel={isExternal(child.href) ? "noreferrer" : undefined}
+                    >
                       {child.label}
                     </a>
                   </li>
