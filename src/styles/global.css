@@ -1110,23 +1110,23 @@ p {
   margin: 20px auto;
 }
 
-.post-single-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 30px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-  font-size: 12px;
+.post-tags {
+  margin-top: 40px;
+  text-align: center;
 }
 
-.post-single-tags a {
-  color: var(--muted);
+.post-tags a {
+  display: inline-block;
+  margin-right: 10px;
+  color: #ab3300;
+  font-size: 13px;
+  line-height: 26px;
+  text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.post-single-tags a:hover {
-  color: var(--hover);
+.post-tags a:hover {
+  color: #ff4d00;
 }
 
 .post-nav {

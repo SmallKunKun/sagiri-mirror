@@ -114,11 +114,18 @@ const showCover = Boolean(post.cover && firstImage !== post.cover.url);
     <div class="post-body-single" set:html={content.html}></div>
 
     {post.tags.length > 0 ? (
-      <div class="post-single-tags">
-        {post.tags.map((tag) => (
-          <a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>
-        ))}
-      </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+          {post.tags.map((tag, index) => (
+            <>
+              {index > 0 ? " " : null}
+              <a href={`/tags/${encodeURIComponent(tag)}/`} rel="tag">
+                # {tag}
+              </a>
+            </>
+          ))}
+        </div>
+      </footer>
     ) : null}
 
     {newer || older ? (
