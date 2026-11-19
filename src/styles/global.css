@@ -755,10 +755,15 @@ p {
 }
 
 .post-tags {
-  display: flex;
+  position: absolute;
+  top: 110px;
+  right: 40px;
+  left: 62px;
+  display: none;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   font-size: 12px;
+  line-height: 1.6;
 }
 
 .post-tags a {
@@ -768,6 +773,12 @@ p {
 
 .post-tags a:hover {
   color: var(--hover);
+}
+
+@media (min-width: 992px) {
+  .post-tags {
+    display: flex;
+  }
 }
 
 .sidebar-posts {
