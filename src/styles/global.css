@@ -1213,21 +1213,21 @@ p {
   color: #fff;
 }
 
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 8px;
+.my-face {
+  display: inline-block;
+  margin-left: 5px;
+  animation: my-face 5s infinite ease-in-out;
 }
 
-.footer-links a {
-  color: #aaa;
-  transition: color 0.2s ease;
-}
+@keyframes my-face {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
 
-.footer-links a:hover {
-  color: #fff;
+  50% {
+    transform: translateY(1.5px);
+  }
 }
 
 @media (min-width: 992px) {
@@ -1308,10 +1308,6 @@ p {
   .pagination {
     margin: 16px 0 0;
     border-radius: 0;
-  }
-
-  .footer-links {
-    gap: 12px;
   }
 
   .back-to-top {

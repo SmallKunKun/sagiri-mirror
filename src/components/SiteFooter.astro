@@ -1,15 +1,9 @@
 ---
+import { footerConfig } from "../blog.config";
 import { getSiteConfig } from "../data/backend";
 
 const config = await getSiteConfig();
 const year = new Date().getFullYear();
-const links = [
-  { label: "首页", href: "/" },
-  { label: "归档", href: "/posts" },
-  { label: "标签", href: "/tags" },
-  { label: "分类", href: "/categories" },
-  { label: "RSS", href: "/rss.xml" },
-];
 ---
 
 <footer class="site-footer">
@@ -18,10 +12,38 @@ const links = [
   </div>
 
   <div class="footer-inner">
-    <nav class="footer-links" aria-label="页脚导航">
-      {links.map((item) => <a href={item.href}>{item.label}</a>)}
-    </nav>
-    <p>© {year} {config.author}</p>
-    <p>Powered by Astro · Vue islands</p>
+    {footerConfig.since ? (
+      <p class="footer-runtime">
+        博客已萌萌哒运行
+        <span class="footer-since" data-since={footerConfig.since}></span>
+        <span class="my-face">(●'◡'●)ﾉ♥</span>
+      </p>
+    ) : null}
+
+    <p>© {year} {config.author}. 由 Astro 强力驱动. Theme By Sagiri.</p>
+
+    {footerConfig.icp ? <p class="footer-icp">{footerConfig.icp}</p> : null}
   </div>
 </footer>
+
+<script is:inline>
+  (() => {
+    const element = document.querySelector("[data-since]");
+    if (!element) return;
+
+    const since = Date.parse(element.dataset.since);
+    if (!Number.isFinite(since)) return;
+
+    const tick = () => {
+      const diff = Math.max(0, Date.now() - since);
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      element.textContent = `${days}天${hours}小时${minutes}分${seconds}秒`;
+    };
+
+    tick();
+    window.setInterval(tick, 1000);
+  })();
+</script>
