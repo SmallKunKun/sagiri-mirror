@@ -560,13 +560,14 @@ p {
 }
 
 .post-date {
+  box-sizing: content-box;
   position: absolute;
-  top: -18px;
-  left: -28px;
+  top: -20px;
+  left: -30px;
   display: block;
-  width: 64px;
-  height: 56px;
-  padding-top: 8px;
+  width: 70px;
+  height: 60px;
+  padding-top: 10px;
   border-radius: 100px;
   background: var(--accent);
   color: #fff;
@@ -581,13 +582,15 @@ p {
 
 .post-month {
   display: block;
-  font-size: 11px;
+  font-size: 14px;
+  line-height: 15.4px;
 }
 
 .post-day {
   display: block;
-  font-size: 27px;
+  font-size: 30px;
   font-weight: 700;
+  line-height: 33px;
 }
 
 .post-badge {
