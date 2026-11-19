@@ -9,5 +9,8 @@ const entries = await getSearchIndex();
 ---
 
 <BaseLayout title={`搜索 | ${config.title}`}>
-  <SearchResults client:load entries={entries} />
+  <section class="friends-page">
+    <h2 class="friends-title">搜索</h2>
+    <SearchResults client:load entries={entries} />
+  </section>
 </BaseLayout>

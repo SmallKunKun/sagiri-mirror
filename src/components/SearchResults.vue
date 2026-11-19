@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import type { SearchEntry } from "../data/search";
 
 interface Props {
@@ -45,7 +45,9 @@ const results = computed(() => {
       (result): result is { entry: SearchEntry; score: number } =>
         result !== null,
     )
-    .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title));
+    .sort(
+      (a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title),
+    );
 });
 
 function escapeHtml(value: string) {
@@ -75,37 +77,16 @@ function snippet(entry: SearchEntry) {
   return source.length > 180 ? `${source.slice(0, 180).trimEnd()}…` : source;
 }
 
-function updateUrl() {
-  const url = new URL(window.location.href);
-  if (query.value.trim()) {
-    url.searchParams.set("q", query.value.trim());
-  } else {
-    url.searchParams.delete("q");
-  }
-  window.history.replaceState(null, "", url);
-}
-
 onMounted(() => {
   query.value = new URLSearchParams(window.location.search).get("q") ?? "";
 });
-
-watch(query, updateUrl);
 </script>
 
 <template>
-  <section class="search-page">
-    <form class="search-page-form" role="search" @submit.prevent>
-      <label class="sr-only" for="search-page-input">搜索远端文章</label>
-      <input
-        id="search-page-input"
-        v-model="query"
-        type="search"
-        placeholder="搜索远端文章…"
-        autocomplete="off"
-      />
-    </form>
-
-    <p v-if="!query.trim()" class="search-hint">输入关键词，搜索远端文章。</p>
+  <div class="search-results-wrap">
+    <p v-if="!query.trim()" class="search-hint">
+      在导航栏输入关键词后回车搜索。
+    </p>
     <p v-else-if="results.length === 0" class="search-hint">
       没有找到匹配的文章。
     </p>
@@ -122,41 +103,17 @@ watch(query, updateUrl);
         </a>
       </li>
     </ul>
-  </section>
+  </div>
 </template>
 
 <style scoped>
-.search-page {
-  padding: 32px 40px;
-  border-radius: 5px;
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-}
-
-.search-page-form {
-  margin-bottom: 24px;
-}
-
-.search-page-form input {
-  width: 100%;
-  height: 44px;
-  padding: 0 14px;
-  border: 1px solid #eee;
-  border-radius: 5px;
-  background: #fff;
-  color: #555;
-  font: inherit;
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.search-page-form input:focus {
-  border-color: #97dffd;
+.search-results-wrap {
+  min-width: 0;
 }
 
 .search-hint {
-  margin-bottom: 0;
+  margin: 0;
+  padding: 8px 0;
   color: #999;
   text-align: center;
 }
@@ -214,9 +171,8 @@ watch(query, updateUrl);
 }
 
 @media (max-width: 991px) {
-  .search-page {
-    padding: 24px 18px;
-    border-radius: 0;
+  .search-results h2 {
+    font-size: 17px;
   }
 }
 </style>
