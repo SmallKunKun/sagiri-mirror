@@ -55,6 +55,23 @@ jobs:
         with:
           path: dist
 
+      - name: Probe backend on failure
+        if: failure()
+        continue-on-error: true
+        env:
+          BLOG_API_TOKEN: ${{ secrets.BLOG_API_TOKEN }}
+        run: |
+          echo "::warning::token_length=${#BLOG_API_TOKEN}"
+          for mode in without with; do
+            if [ "$mode" = "with" ]; then
+              code=$(curl -sS -o /tmp/probe.json -w "%{http_code}" -A "Mozilla/5.0" -H "x-blog-mirror-token: $BLOG_API_TOKEN" https://your-blog.example.com/api/posts || true)
+            else
+              code=$(curl -sS -o /tmp/probe.json -w "%{http_code}" -A "Mozilla/5.0" https://your-blog.example.com/api/posts || true)
+            fi
+            body=$(head -c 140 /tmp/probe.json | tr '\n' ' ')
+            echo "::warning::mode=${mode} status=${code} body=${body}"
+          done
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
