@@ -641,13 +641,10 @@ p {
   color: inherit;
   line-height: 1.2;
   vertical-align: top;
-  transition:
-    transform 0.3s ease,
-    color 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 .post-title a:hover {
-  color: var(--link);
   transform: scale(1.1);
 }
 
