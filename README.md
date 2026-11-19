@@ -16,7 +16,7 @@
 
 ---
 
-Sagiri Mirror（纱雾镜像）是一个将 [flare-stack-blog](https://github.com/du2333/flare-stack-blog) 的内容构建成纯静态站点的前端项目。它使用 Astro 和 Vue islands 复刻 Sagiri 主题的视觉与交互，在构建阶段从远端 API 读取站点配置、文章和友链，生成可以直接托管到 GitHub Pages 的 HTML、CSS 和 JavaScript。
+Sagiri Mirror 是一个将 [flare-stack-blog](https://github.com/du2333/flare-stack-blog) 的内容构建成纯静态站点的前端项目。它使用 Astro 和 Vue islands 复刻 Sagiri 主题的视觉与交互，在构建阶段从远端 API 读取站点配置、文章和友链，生成可以直接托管到 GitHub Pages 的 HTML、CSS 和 JavaScript。
 
 部署完成后，浏览器不再访问博客 API，也不需要数据库、服务器或任何运行时后端。
 
