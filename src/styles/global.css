@@ -1161,7 +1161,7 @@ p {
 
 .footer-image {
   position: absolute;
-  bottom: 55px;
+  bottom: 100%;
   left: 0;
   z-index: 1;
   display: flex;
@@ -1177,6 +1177,8 @@ p {
   width: 100%;
   max-width: 1000px;
   height: auto;
+  /* footer.png has 34 transparent rows below the legs out of 368. */
+  transform: translateY(9.2391%);
 }
 
 .footer-inner {
