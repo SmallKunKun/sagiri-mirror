@@ -67,7 +67,7 @@ const open = ref(false);
 }
 
 .mobile-menu {
-  position: absolute;
+  position: fixed;
   top: 52px;
   right: 16px;
   left: 16px;
@@ -96,7 +96,6 @@ const open = ref(false);
 @media (max-width: 991px) {
   .mobile-nav {
     display: block;
-    position: relative;
   }
 }
 </style>
