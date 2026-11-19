@@ -465,8 +465,11 @@ p {
   text-align: center;
 }
 
-.author-cover {
+.author-profile {
   position: relative;
+}
+
+.author-cover {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 4px;
@@ -478,6 +481,7 @@ p {
 
 .author-name {
   position: absolute;
+  z-index: 1;
   bottom: 36px;
   left: 50%;
   width: 130px;
@@ -516,11 +520,11 @@ p {
 }
 
 .author-description {
-  margin: 8px 0 12px;
+  margin: 7px 0;
   color: #555;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  line-height: 1.7;
+  line-height: 2;
 }
 
 .author-social {
