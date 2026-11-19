@@ -1,4 +1,5 @@
 ---
+import BrandTitle from "./BrandTitle.astro";
 import NavIcon from "./NavIcon.astro";
 import { navigation } from "../data/navigation";
 import { site } from "../data/site";
@@ -79,8 +80,7 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
 
   <div class="site-banner">
     <div class="site-banner-inner">
-      <h1 class="site-banner-title">{site.title}</h1>
-      <p class="site-banner-subtitle">{site.subtitle}</p>
+      <BrandTitle text={site.title} />
     </div>
   </div>
 

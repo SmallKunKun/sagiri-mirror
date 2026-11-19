@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Candyshop";
+  src: url("/fonts/Candyshop.otf") format("opentype");
+  font-display: swap;
+}
+
 :root {
   --bg: #efefef;
   --card: #ffffff;
@@ -290,23 +296,53 @@ p {
   text-align: center;
 }
 
-.site-banner-title {
-  margin-bottom: 8px;
-  color: #fff;
-  font-size: 56px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  line-height: 1.15;
-  text-shadow: 0 1px 1px var(--accent-deep);
+.brand-title {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  color: #ff9800;
+  font-family: "Candyshop", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: clamp(48px, 12.5vw, 100px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
 }
 
-.site-banner-subtitle {
-  margin-bottom: 0;
-  color: #fff;
-  font-size: 24px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  text-shadow: 0 1px 1px var(--accent-deep);
+.brand-layer {
+  display: flex;
+  justify-content: center;
+}
+
+.brand-fill {
+  position: relative;
+  z-index: 1;
+  color: #ff9800;
+  text-shadow: 0 8px 22px rgba(32, 43, 62, 0.18);
+}
+
+.brand-stroke {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  color: transparent;
+  -webkit-text-stroke: clamp(6px, 1.6vw, 13px) #fff;
+}
+
+.brand-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(40px) scale(0);
+  animation: brand-letter-in 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  animation-delay: calc(150ms + var(--i) * 110ms);
+}
+
+@keyframes brand-letter-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .site-master {
@@ -792,14 +828,6 @@ p {
 
   .site-banner-inner {
     padding: 60px 16px 24px;
-  }
-
-  .site-banner-title {
-    font-size: 8vw;
-  }
-
-  .site-banner-subtitle {
-    font-size: 15px;
   }
 
   .site-master {

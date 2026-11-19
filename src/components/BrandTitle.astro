@@ -1,0 +1,21 @@
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+const letters = [...text];
+---
+
+<h1 class="brand-title" aria-label={text}>
+  <span class="brand-layer brand-stroke" aria-hidden="true">
+    {letters.map((letter, index) => (
+      <span class="brand-letter" style={`--i: ${index}`}>{letter}</span>
+    ))}
+  </span>
+  <span class="brand-layer brand-fill" aria-hidden="true">
+    {letters.map((letter, index) => (
+      <span class="brand-letter" style={`--i: ${index}`}>{letter}</span>
+    ))}
+  </span>
+</h1>
