@@ -190,6 +190,66 @@ CNAME=blog.example.com
 https://username.github.io/仓库名/
 ```
 
+### 7. 可选：自动配置 Cloudflare WAF
+
+如果后端也在自己的 Cloudflare 账号下，可以让 workflow 自动创建 WAF Skip 规则，不需要手动进控制台。
+
+需要准备：
+
+1. 一个随机 token：
+
+   ```bash
+   openssl rand -hex 32
+   ```
+
+2. **GitHub Secret**
+
+   ```text
+   BLOG_API_TOKEN=上面的随机 token
+   ```
+
+3. **Cloudflare API Token**
+
+   Cloudflare Dashboard → My Profile → API Tokens → Create Token，权限至少包含：
+
+   ```text
+   Zone → WAF → Edit
+   Zone → Zone → Read
+   ```
+
+   授权范围选择自己的后端域名。
+
+4. **GitHub Secret**
+
+   ```text
+   CLOUDFLARE_API_TOKEN=Cloudflare API Token
+   ```
+
+5. **GitHub Variable**
+
+   ```text
+   CLOUDFLARE_ZONE_ID=后端域名的 Zone ID
+   ```
+
+   Zone ID 可以在 Cloudflare 域名 Overview 页面右侧找到。
+
+配置后，workflow 会自动创建或更新这条规则：
+
+```text
+sagiri-mirror build (auto)
+```
+
+匹配请求头：
+
+```text
+x-blog-mirror-token: <BLOG_API_TOKEN>
+```
+
+如果暂时不配置 Cloudflare API Token，workflow 会跳过自动配置，仍可手动创建 WAF 规则。
+
+> [!IMPORTANT]
+> 免费版 Bot Fight Mode 不能被 WAF Skip 规则跳过。如果 Security Events 显示是 Bot Fight Mode 在 challenge，需要先在 Cloudflare 中关闭它，或升级到支持 Super Bot Fight Mode 的方案。
+
 ## 本地开发
 
 环境要求：
@@ -242,6 +302,8 @@ npm run preview
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖默认远端博客地址 |
 | `PAGES_TOKEN` Actions Secret | 可选，用 PAT 自动创建和配置 Pages 站点 |
 | `BLOG_API_TOKEN` Actions Secret | 可选，配合 Cloudflare WAF 跳过规则读取后端 |
+| `CLOUDFLARE_API_TOKEN` Actions Secret | 可选，自动创建 Cloudflare WAF Skip 规则 |
+| `CLOUDFLARE_ZONE_ID` Actions Variable | 后端域名对应的 Cloudflare Zone ID |
 | `CNAME` Actions Variable | 自定义域名，生成 `dist/CNAME` 并强制 `base=/` |
 | `BASE_PATH` | 部署子路径，GitHub Actions 自动设置 |
 | `SITE_ORIGIN` | 站点 origin，GitHub Actions 自动设置 |
