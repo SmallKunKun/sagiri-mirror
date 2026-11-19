@@ -265,7 +265,7 @@ p {
   overflow: hidden;
   background:
     linear-gradient(rgba(32, 43, 62, 0.32), rgba(32, 43, 62, 0.46)),
-    url("/images/banner.svg") center / cover no-repeat;
+    var(--banner-image, url("/images/banner.svg")) center / cover no-repeat;
 }
 
 .site-banner::before {

@@ -79,7 +79,10 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
     </nav>
   </div>
 
-  <div class="site-banner">
+  <div
+    class="site-banner"
+    style={`--banner-image: url('${config.bannerImage}')`}
+  >
     <div class="site-banner-inner">
       <BrandTitle text={config.title} />
     </div>
