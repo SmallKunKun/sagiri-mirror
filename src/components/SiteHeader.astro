@@ -1,4 +1,5 @@
 ---
+import NavIcon from "./NavIcon.astro";
 import { site } from "../data/site";
 ---
 
@@ -10,10 +11,14 @@ import { site } from "../data/site";
           <li class:list={["menu-item", { "has-children": item.children?.length }]}>
             {item.children?.length ? (
               <button class="menu-parent" type="button" aria-haspopup="true">
+                {item.icon ? <NavIcon name={item.icon} /> : null}
                 {item.label}
               </button>
             ) : (
-              <a href={item.href}>{item.label}</a>
+              <a href={item.href}>
+                {item.icon ? <NavIcon name={item.icon} /> : null}
+                {item.label}
+              </a>
             )}
 
             {item.children?.length ? (
@@ -29,6 +34,34 @@ import { site } from "../data/site";
             ) : null}
           </li>
         ))}
+
+        <li class="menu-item menu-search">
+          <form class="search-form" action="/search/" method="get" role="search">
+            <label class="sr-only" for="site-search">站内搜索</label>
+            <input
+              id="site-search"
+              class="search-input"
+              type="search"
+              name="q"
+              placeholder="站内搜索"
+            />
+            <button class="search-submit" type="submit" aria-label="搜索">
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m16.5 16.5 4 4"></path>
+              </svg>
+            </button>
+          </form>
+        </li>
       </ul>
     </nav>
   </div>

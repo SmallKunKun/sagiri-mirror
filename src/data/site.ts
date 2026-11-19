@@ -6,6 +6,7 @@ export interface NavChild {
 export interface NavItem {
   label: string;
   href: string;
+  icon?: string;
   children?: NavChild[];
 }
 
@@ -20,10 +21,11 @@ export const site = {
   author: "your-name",
   description: "一个基于 Astro 与 Vue islands 的静态博客。",
   nav: [
-    { label: "首页", href: "/" },
+    { label: "首页", href: "/", icon: "home" },
     {
       label: "实验室",
       href: "#",
+      icon: "flask",
       children: [
         { label: "网盘", href: "https://drive.your-blog.example.com/" },
         { label: "音乐", href: "https://music.your-blog.example.com/" },
@@ -32,10 +34,10 @@ export const site = {
         { label: "监控", href: "https://status.your-blog.example.com/" },
       ],
     },
-    { label: "归档", href: "/archives/" },
-    { label: "后宫", href: "/friends/" },
-    { label: "留言板", href: "/message/" },
-    { label: "关于我", href: "/about/" },
+    { label: "归档", href: "/archives/", icon: "archive" },
+    { label: "后宫", href: "/friends/", icon: "heart" },
+    { label: "留言板", href: "/message/", icon: "message" },
+    { label: "关于我", href: "/about/", icon: "user" },
   ] satisfies NavItem[],
   social: [
     { label: "GitHub", href: "https://github.com/" },

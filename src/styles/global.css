@@ -120,6 +120,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: 6px;
   height: 100%;
   padding: 0 12px;
   border: 0;
@@ -131,6 +132,68 @@ p {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: opacity 0.2s ease;
+}
+
+.menu-icon {
+  display: none;
+  flex: none;
+}
+
+.menu-search {
+  margin-left: auto;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.search-input {
+  width: 0;
+  padding: 3px 0;
+  border: 0;
+  border-radius: 4px;
+  background: #fff;
+  color: #555;
+  font-size: 13px;
+  outline: none;
+  transition:
+    width 0.45s ease,
+    padding 0.45s ease;
+}
+
+.menu-search:hover .search-input,
+.search-input:focus {
+  width: 120px;
+  padding: 8px;
+}
+
+.search-submit {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.search-submit:hover {
+  opacity: 0.8;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .menu-item > a:hover,
@@ -685,9 +748,19 @@ p {
   color: #fff;
 }
 
+@media (min-width: 992px) {
+  .menu-icon {
+    display: block;
+  }
+}
+
 @media (max-width: 991px) {
   .site-nav {
     padding: 0;
+  }
+
+  .menu-search {
+    display: none;
   }
 
   .site-menu {
