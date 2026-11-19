@@ -26,9 +26,14 @@ const plateCharacter = (title: string) => {
       </div>
 
       <div class="post-main">
-        <a class="post-badge" href={`/categories/${encodeURIComponent(post.category)}/`}>
-          {post.category}
-        </a>
+        {post.category !== "未分类" ? (
+          <a
+            class="post-badge"
+            href={`/categories/${encodeURIComponent(post.category)}/`}
+          >
+            {post.category}
+          </a>
+        ) : null}
 
         <h2 class="post-title">
           <a href={`/post/${post.slug}/`}>{post.title}</a>
@@ -89,7 +94,9 @@ const plateCharacter = (title: string) => {
           ) : (
             <div class="post-cover-plate" aria-hidden="true">
               <span class="post-cover-char">{plateCharacter(post.title)}</span>
-              <span class="post-cover-category">{post.category}</span>
+              {post.category !== "未分类" ? (
+                <span class="post-cover-category">{post.category}</span>
+              ) : null}
             </div>
           )}
         </a>

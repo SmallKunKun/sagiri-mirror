@@ -20,7 +20,13 @@ const stats = [
   },
   {
     label: "分类",
-    value: String(new Set(allPosts.map((post) => post.category)).size),
+    value: String(
+      new Set(
+        allPosts
+          .map((post) => post.category)
+          .filter((category) => category !== "未分类"),
+      ).size,
+    ),
   },
 ];
 ---
