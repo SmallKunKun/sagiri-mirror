@@ -1,19 +1,36 @@
 ---
-import MobileNav from "../components/MobileNav.vue";
 import { site } from "../data/site";
 ---
 
 <header class="site-header">
   <div class="site-nav-bar">
-    <a class="site-nav-brand" href="/">{site.title}</a>
-
     <nav class="site-nav" aria-label="主导航">
-      {site.nav.map((item) => (
-        <a href={item.href}>{item.label}</a>
-      ))}
-    </nav>
+      <ul class="site-menu">
+        {site.nav.map((item) => (
+          <li class:list={["menu-item", { "has-children": item.children?.length }]}>
+            {item.children?.length ? (
+              <button class="menu-parent" type="button" aria-haspopup="true">
+                {item.label}
+              </button>
+            ) : (
+              <a href={item.href}>{item.label}</a>
+            )}
 
-    <MobileNav client:load links={site.nav} />
+            {item.children?.length ? (
+              <ul class="submenu">
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.href} target="_blank" rel="noreferrer">
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </nav>
   </div>
 
   <div class="site-banner">
