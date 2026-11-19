@@ -1,6 +1,7 @@
 ---
-import { site } from "../data/site";
+import { getSiteConfig } from "../data/backend";
 
+const config = await getSiteConfig();
 const year = new Date().getFullYear();
 const links = [
   { label: "首页", href: "/" },
@@ -15,6 +16,6 @@ const links = [
   <nav class="footer-links" aria-label="页脚导航">
     {links.map((item) => <a href={item.href}>{item.label}</a>)}
   </nav>
-  <p>© {year} {site.author}</p>
+  <p>© {year} {config.author}</p>
   <p>Powered by Astro · Vue islands</p>
 </footer>

@@ -1,9 +1,10 @@
 ---
 import BrandTitle from "./BrandTitle.astro";
 import NavIcon from "./NavIcon.astro";
+import { getSiteConfig } from "../data/backend";
 import { navigation } from "../data/navigation";
-import { site } from "../data/site";
 
+const config = await getSiteConfig();
 const isExternal = (href: string) => /^https?:\/\//.test(href);
 ---
 
@@ -80,12 +81,12 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
 
   <div class="site-banner">
     <div class="site-banner-inner">
-      <BrandTitle text={site.title} />
+      <BrandTitle text={config.title} />
     </div>
   </div>
 
   <div class="site-master">
-    <img class="site-master-avatar" src={site.avatar} alt="" />
-    <h2 class="site-master-description">{site.tagline}</h2>
+    <img class="site-master-avatar" src={config.avatar} alt="" />
+    <h2 class="site-master-description">{config.tagline}</h2>
   </div>
 </header>

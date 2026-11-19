@@ -542,12 +542,17 @@ p {
   height: 30px;
   align-items: center;
   justify-content: center;
+  gap: 5px;
   padding: 0 10px;
   border-radius: 15px;
   background: rgba(230, 244, 249, 0.8);
   color: rgba(0, 0, 0, 0.5);
   font-size: 12px;
   transition: all 0.3s ease-in-out;
+}
+
+.author-social a span {
+  line-height: 1;
 }
 
 .author-social a:hover {

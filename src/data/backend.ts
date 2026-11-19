@@ -1,3 +1,6 @@
+import { blogSource } from "../blog.config";
+import { site } from "./site";
+
 export type SocialPlatform =
   | "github"
   | "twitter"
@@ -14,21 +17,40 @@ export interface BackendSocialLink {
   label?: string;
 }
 
+export interface BackendSiteConfig {
+  title: string;
+  author: string;
+  description: string;
+  tagline: string;
+  avatar: string;
+  bannerImage: string;
+  social: BackendSocialLink[];
+}
+
 const env = import.meta.env as Record<string, string | undefined>;
 
-/** The Cloudflare blog the mirror reads. Set BLOG_ORIGIN to override. */
+/** The Cloudflare blog this mirror reads. */
 export const BLOG_ORIGIN = (
   process.env.BLOG_ORIGIN ??
   env.BLOG_ORIGIN ??
-  "https://your-blog.example.com"
+  blogSource.origin
 ).replace(/\/$/, "");
 
-/** Used when the build cannot reach the backend. */
 const FALLBACK_SOCIAL: BackendSocialLink[] = [
   { platform: "github", url: "https://github.com/your-name" },
   { platform: "email", url: "mailto:you@example.com" },
   { platform: "rss", url: "/rss.xml" },
 ];
+
+const FALLBACK_CONFIG: BackendSiteConfig = {
+  title: site.title,
+  author: site.author,
+  description: site.description,
+  tagline: site.tagline,
+  avatar: site.avatar,
+  bannerImage: site.card,
+  social: FALLBACK_SOCIAL,
+};
 
 const SOCIAL_LABELS: Record<SocialPlatform, string> = {
   github: "GitHub",
@@ -40,15 +62,15 @@ const SOCIAL_LABELS: Record<SocialPlatform, string> = {
   custom: "Link",
 };
 
-let socialPromise: Promise<BackendSocialLink[]> | undefined;
+let configPromise: Promise<BackendSiteConfig> | undefined;
 
-/** The Site Config's social links, fetched once per build. */
-export function getBackendSocialLinks() {
-  socialPromise ??= fetchSocialLinks();
-  return socialPromise;
+/** The remote Site Config, fetched once per build. */
+export function getSiteConfig() {
+  configPromise ??= fetchSiteConfig();
+  return configPromise;
 }
 
-async function fetchSocialLinks(): Promise<BackendSocialLink[]> {
+async function fetchSiteConfig(): Promise<BackendSiteConfig> {
   try {
     const response = await fetch(`${BLOG_ORIGIN}/api/site/config`, {
       signal: AbortSignal.timeout(5000),
@@ -58,18 +80,40 @@ async function fetchSocialLinks(): Promise<BackendSocialLink[]> {
       throw new Error(`${response.status} ${response.statusText}`);
     }
 
-    const config = (await response.json()) as { social?: unknown };
-    if (!Array.isArray(config.social)) return FALLBACK_SOCIAL;
-
-    const links = config.social.filter(isSocialLink);
-    return links.length > 0 ? links : FALLBACK_SOCIAL;
+    return normalizeConfig(await response.json());
   } catch (error) {
     console.warn(
-      `[site-config] Could not read ${BLOG_ORIGIN}/api/site/config; using fallback social links.`,
+      `[site-config] Could not read ${BLOG_ORIGIN}/api/site/config; using fallback config.`,
       error,
     );
-    return FALLBACK_SOCIAL;
+    return FALLBACK_CONFIG;
   }
+}
+
+function normalizeConfig(value: unknown): BackendSiteConfig {
+  const config =
+    typeof value === "object" && value !== null
+      ? (value as Record<string, unknown>)
+      : {};
+
+  const description = text(config.description) || site.description;
+  const tagline = text(config.tagline) || text(config.description) || site.tagline;
+
+  return {
+    title: text(config.title) || site.title,
+    author: text(config.author) || site.author,
+    description,
+    tagline,
+    avatar: resolveAsset(config.avatar) || site.avatar,
+    bannerImage: resolveAsset(config.bannerImage) || site.card,
+    social: Array.isArray(config.social)
+      ? config.social.filter(isSocialLink)
+      : FALLBACK_SOCIAL,
+  };
+}
+
+function text(value: unknown) {
+  return typeof value === "string" && value.trim() ? value.trim() : "";
 }
 
 function isSocialLink(value: unknown): value is BackendSocialLink {
@@ -100,15 +144,19 @@ export function resolveSocialHref(link: BackendSocialLink) {
 }
 
 export function resolveSocialIcon(link: BackendSocialLink) {
-  if (!link.icon) return undefined;
+  return resolveAsset(link.icon);
+}
+
+function resolveAsset(value: unknown) {
+  if (typeof value !== "string" || !value.trim()) return undefined;
   if (
-    link.icon.startsWith("http://") ||
-    link.icon.startsWith("https://") ||
-    link.icon.startsWith("data:")
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("data:")
   ) {
-    return link.icon;
+    return value;
   }
-  return link.icon.startsWith("/")
-    ? `${BLOG_ORIGIN}${link.icon}`
-    : `${BLOG_ORIGIN}/${link.icon}`;
+  return value.startsWith("/")
+    ? `${BLOG_ORIGIN}${value}`
+    : `${BLOG_ORIGIN}/${value}`;
 }
