@@ -660,8 +660,14 @@ p {
   text-align: center;
 }
 
-.post-time {
+.post-time,
+.post-readtime {
   display: inline;
+}
+
+.post-meta-divider {
+  margin: 0 6px;
+  opacity: 0.6;
 }
 
 .post-meta-icon {

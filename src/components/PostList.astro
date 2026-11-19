@@ -55,6 +55,26 @@ const plateCharacter = (title: string) => {
               {dateOf(post.publishedAt)}
             </time>
           </span>
+
+          <span class="post-readtime">
+            <span class="post-meta-divider" aria-hidden="true">•</span>
+            <svg
+              class="post-meta-icon"
+              viewBox="0 0 24 24"
+              width="12"
+              height="12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M12 7v5l3 2"></path>
+            </svg>
+            <span class="post-meta-label">阅读时长 &asymp;</span>
+            <span>{post.readingTime} 分钟</span>
+          </span>
         </div>
 
         <a class="post-cover" href={`/post/${post.slug}/`} aria-label={post.title}>
