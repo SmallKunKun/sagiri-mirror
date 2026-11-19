@@ -53,71 +53,24 @@ const {
       <img src="/images/scroll.png" alt="" />
     </a>
 
-    <div
-      class="image-viewer"
-      id="image-viewer"
-      role="dialog"
-      aria-modal="true"
-      aria-label="图片预览"
-      aria-hidden="true"
-    >
-      <button class="image-viewer-close" type="button" aria-label="关闭预览">
-        ×
-      </button>
-      <img alt="" />
-    </div>
+    <script>
+      import mediumZoom from "medium-zoom";
 
-    <script is:inline>
-      (() => {
-        const viewer = document.getElementById("image-viewer");
-        if (!viewer) return;
+      const imageSelector =
+        ".post-body-single img, .post-single-cover, .post-cover img";
 
-        const viewerImage = viewer.querySelector("img");
-        const closeButton = viewer.querySelector(".image-viewer-close");
-        const images = [
-          ...document.querySelectorAll(
-            ".post-body-single img, .post-single-cover, .post-cover img",
-          ),
-        ];
-        let lastFocused;
-
-        const open = (image) => {
-          lastFocused = image;
-          viewerImage.src = image.currentSrc || image.src;
-          viewerImage.alt = image.alt || "";
-          viewer.classList.add("is-open");
-          viewer.setAttribute("aria-hidden", "false");
-          document.body.classList.add("image-viewer-open");
-          closeButton.focus({ preventScroll: true });
-        };
-
-        const close = () => {
-          viewer.classList.remove("is-open");
-          viewer.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("image-viewer-open");
-          if (lastFocused) lastFocused.focus({ preventScroll: true });
-          lastFocused = undefined;
-        };
-
-        for (const image of images) {
-          image.classList.add("previewable-image");
-          image.addEventListener("click", (event) => {
+      for (const image of document.querySelectorAll(imageSelector)) {
+        image.addEventListener("click", (event) => {
+          if (image.closest("a")) {
             event.preventDefault();
-            event.stopPropagation();
-            open(image);
-          });
-        }
-
-        closeButton.addEventListener("click", close);
-        viewer.addEventListener("click", (event) => {
-          if (event.target === viewer || event.target === viewerImage) close();
-        });
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape" && viewer.classList.contains("is-open")) {
-            close();
           }
         });
-      })();
+      }
+
+      mediumZoom(imageSelector, {
+        margin: 24,
+        background: "#fff",
+      });
     </script>
 
     <script is:inline>
