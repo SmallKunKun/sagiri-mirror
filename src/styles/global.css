@@ -597,6 +597,7 @@ p {
   position: absolute;
   top: 105px;
   left: -16px;
+  z-index: 2;
   display: inline-block;
   margin: 5px 0 15px 2px;
   padding: 7px 11px 7px 32px;
@@ -652,7 +653,7 @@ p {
 
 .post-meta {
   display: block;
-  margin: 5px 0 60px;
+  margin: 5px 0 20px;
   color: #00a7e0;
   font-size: 12px;
   line-height: 24px;
@@ -752,33 +753,6 @@ p {
   background: #7fd3f5;
   color: #fff;
   transform: scale(1.05);
-}
-
-.post-tags {
-  position: absolute;
-  top: 110px;
-  right: 40px;
-  left: 62px;
-  display: none;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.post-tags a {
-  color: var(--muted);
-  transition: color 0.2s ease;
-}
-
-.post-tags a:hover {
-  color: var(--hover);
-}
-
-@media (min-width: 992px) {
-  .post-tags {
-    display: flex;
-  }
 }
 
 .sidebar-posts {

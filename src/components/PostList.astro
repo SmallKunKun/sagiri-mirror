@@ -30,12 +30,6 @@ const plateCharacter = (title: string) => {
           {post.category}
         </a>
 
-        <div class="post-tags" aria-label="文章标签">
-          {post.tags.map((tag) => (
-            <a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>
-          ))}
-        </div>
-
         <h2 class="post-title">
           <a href={`/post/${post.slug}/`}>{post.title}</a>
         </h2>
