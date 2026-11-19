@@ -69,7 +69,7 @@ const open = ref(false);
 
 .mobile-menu {
   position: fixed;
-  top: 58px;
+  top: 54px;
   right: 16px;
   left: 16px;
   z-index: 20;
