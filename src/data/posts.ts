@@ -1,3 +1,9 @@
+export interface PostCover {
+  url: string;
+  width?: number | null;
+  height?: number | null;
+}
+
 export interface PostSummary {
   slug: string;
   title: string;
@@ -6,6 +12,7 @@ export interface PostSummary {
   category: string;
   tags: string[];
   readingTime: number;
+  cover?: PostCover | null;
 }
 
 export const POSTS_PER_PAGE = 5;
@@ -20,6 +27,7 @@ export const posts: PostSummary[] = [
     category: "前端",
     tags: ["Astro", "Vue"],
     readingTime: 8,
+    cover: { url: "/images/card.webp", width: 4800, height: 3392 },
   },
   {
     slug: "cloudflare-workers-fullstack-blog",
@@ -40,6 +48,7 @@ export const posts: PostSummary[] = [
     category: "设计",
     tags: ["Sagiri", "Hexo", "CSS"],
     readingTime: 9,
+    cover: { url: "/images/banner.svg", width: 1600, height: 900 },
   },
   {
     slug: "why-static-sites-still-matter",

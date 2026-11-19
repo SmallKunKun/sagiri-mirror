@@ -10,10 +10,15 @@ const { posts } = Astro.props;
 const monthOf = (iso: string) => `${new Date(iso).getMonth() + 1}月`;
 const dayOf = (iso: string) => String(new Date(iso).getDate()).padStart(2, "0");
 const dateOf = (iso: string) => iso.slice(0, 10);
+
+const plateCharacter = (title: string) => {
+  const characters = Array.from(title.trim());
+  return characters.find((character) => /[\p{L}\p{N}]/u.test(character)) ?? characters[0] ?? "";
+};
 ---
 
 <section class="post-list" aria-label="文章列表">
-  {posts.map((post) => (
+  {posts.map((post, index) => (
     <article class="post-card">
       <div class="post-date" aria-hidden="true">
         <span class="post-month">{monthOf(post.publishedAt)}</span>
@@ -51,6 +56,23 @@ const dateOf = (iso: string) => iso.slice(0, 10);
             </time>
           </span>
         </div>
+
+        <a class="post-cover" href={`/post/${post.slug}/`} aria-label={post.title}>
+          {post.cover ? (
+            <img
+              src={post.cover.url}
+              alt=""
+              width={post.cover.width ?? undefined}
+              height={post.cover.height ?? undefined}
+              loading={index < 3 ? "eager" : "lazy"}
+            />
+          ) : (
+            <div class="post-cover-plate" aria-hidden="true">
+              <span class="post-cover-char">{plateCharacter(post.title)}</span>
+              <span class="post-cover-category">{post.category}</span>
+            </div>
+          )}
+        </a>
 
         <p class="post-summary">{post.summary}</p>
 
