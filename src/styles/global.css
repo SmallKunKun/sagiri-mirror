@@ -648,7 +648,7 @@ p {
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
-  margin: 5px 0 16px;
+  margin: 5px 0 60px;
   color: #555;
   font-size: 12px;
 }
@@ -893,6 +893,10 @@ p {
 
   .post-title {
     font-size: 22px;
+  }
+
+  .post-meta {
+    margin-bottom: 20px;
   }
 
   .pagination {
