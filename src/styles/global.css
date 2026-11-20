@@ -1902,10 +1902,6 @@ html:not([data-theme-mode]) .theme-icon-auto {
   }
 
   .menu-search {
-    display: flex;
-  }
-
-  .menu-search .search-form {
     display: none;
   }
 
