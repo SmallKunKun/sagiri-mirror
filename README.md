@@ -219,62 +219,50 @@ BLOG_ORIGIN=https://your-blog.example.com
 
 本地开发时则使用环境变量或直接修改 `src/blog.config.ts` 的 `blogSource.origin`。
 
-### 8. 可选：自动配置 Cloudflare WAF
+### 8. Cloudflare WAF 手动配置
 
-如果后端也在自己的 Cloudflare 账号下，可以让 workflow 自动创建 WAF Skip 规则，不需要手动进控制台。
+如果后端在 Cloudflare 后面，需要手动创建一条放行规则。
 
-需要准备：
-
-1. 一个随机 token：
+1. 生成随机 token：
 
    ```bash
    openssl rand -hex 32
    ```
 
-2. **GitHub Secret**
+2. 在 GitHub Secret 中保存：
 
    ```text
    BLOG_API_TOKEN=上面的随机 token
    ```
 
-3. **Cloudflare API Token**
-
-   Cloudflare Dashboard → My Profile → API Tokens → Create Token，权限至少包含：
+3. 在 Cloudflare Dashboard → 你的后端域名 → **安全性 → WAF → 自定义规则 → 创建规则**：
 
    ```text
-   Zone → WAF → Edit
-   Zone → Zone → Read
+   名称：allow sagiri-mirror
+   表达式：
+   (any(http.request.headers["x-blog-mirror-token"][*] eq "上面的随机 token"))
+   操作：跳过
    ```
 
-   授权范围选择自己的后端域名。
-
-4. **GitHub Secret**
+   跳过选项勾选：
 
    ```text
-   CLOUDFLARE_API_TOKEN=Cloudflare API Token
+   ✅ 所有剩余的自定义规则
+   ✅ 所有托管规则
+   ✅ 所有超级机器人防护模式规则（如果有）
+   ✅ 安全级别
+   ✅ 浏览器完整性检查
    ```
 
-5. **GitHub Variable**
+   不要勾选“此阶段中所有剩余的自定义规则”。
 
-   ```text
-   CLOUDFLARE_ZONE_ID=后端域名的 Zone ID
-   ```
+4. 保存并 **部署**，然后把规则移到自定义规则列表最上面。
 
-   Zone ID 可以在 Cloudflare 域名 Overview 页面右侧找到。
-
-配置后，workflow 会自动创建或更新这条规则：
-
-```text
-sagiri-mirror build (auto)
-```
-
-匹配请求头：
+构建请求会带上：
 
 ```text
 x-blog-mirror-token: <BLOG_API_TOKEN>
 ```
-
-如果暂时不配置 Cloudflare API Token，workflow 会跳过自动配置，仍可手动创建 WAF 规则。
 
 > [!IMPORTANT]
 > 免费版 Bot Fight Mode 不能被 WAF Skip 规则跳过。如果 Security Events 显示是 Bot Fight Mode 在 challenge，需要先在 Cloudflare 中关闭它，或升级到支持 Super Bot Fight Mode 的方案。
@@ -336,9 +324,7 @@ npm run preview
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖 `blogSource.origin` |
 | `DEPLOY_TOKEN` Actions Secret | 推送构建产物到目标用户站点仓库的 PAT |
 | `PAGES_REPOSITORY` Actions Variable | 必填，目标用户站点仓库 |
-| `BLOG_API_TOKEN` Actions Secret | 配合 Cloudflare WAF 跳过规则读取后端 |
-| `CLOUDFLARE_API_TOKEN` Actions Secret | 可选，自动创建 Cloudflare WAF Skip 规则 |
-| `CLOUDFLARE_ZONE_ID` Actions Variable | 后端域名对应的 Cloudflare Zone ID |
+| `BLOG_API_TOKEN` Actions Secret | 配合手动创建的 Cloudflare WAF 跳过规则读取后端 |
 | `CNAME` Actions Variable | 自定义域名，生成 `dist/CNAME` 并设置 `base=/` |
 | `src/data/navigation.ts` | 首页 / 文章 / 友链固定导航 |
 | 远端 `/api/site/config` | 站点标题、作者、tagline、头像、banner、社交链接和扩展导航 |

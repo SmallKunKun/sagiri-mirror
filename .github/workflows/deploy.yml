@@ -46,13 +46,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Configure Cloudflare WAF
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
-          BLOG_API_TOKEN: ${{ secrets.BLOG_API_TOKEN }}
-        run: node scripts/setup-cloudflare-waf.mjs
-
       - name: Check backend access
         env:
           BLOG_ORIGIN: ${{ vars.BLOG_ORIGIN }}
