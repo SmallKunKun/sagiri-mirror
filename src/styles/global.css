@@ -213,7 +213,8 @@ p {
     padding 0.45s ease;
 }
 
-.menu-search:hover .search-input,
+.search-form:hover .search-input,
+.search-form:focus-within .search-input,
 .search-input:focus {
   width: 120px;
   padding: 8px;
