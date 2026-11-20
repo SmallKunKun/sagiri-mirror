@@ -32,11 +32,19 @@ export interface BackendSiteConfig {
 const env = import.meta.env as Record<string, string | undefined>;
 
 /** The Cloudflare blog this mirror reads. */
-export const BLOG_ORIGIN = (
+const configuredOrigin = (
   process.env.BLOG_ORIGIN ??
   env.BLOG_ORIGIN ??
   blogSource.origin
-).replace(/\/$/, "");
+).trim();
+
+if (!configuredOrigin) {
+  throw new Error(
+    "[site-config] BLOG_ORIGIN is not configured. Set it in src/blog.config.ts or as a BLOG_ORIGIN environment variable.",
+  );
+}
+
+export const BLOG_ORIGIN = configuredOrigin.replace(/\/$/, "");
 
 const SOCIAL_LABELS: Record<SocialPlatform, string> = {
   github: "GitHub",

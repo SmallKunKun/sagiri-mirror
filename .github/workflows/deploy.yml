@@ -29,6 +29,20 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Check deployment configuration
+        env:
+          PAGES_REPOSITORY: ${{ vars.PAGES_REPOSITORY }}
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN || secrets.PAGES_TOKEN }}
+        run: |
+          if [ -z "$PAGES_REPOSITORY" ]; then
+            echo "::error::PAGES_REPOSITORY is not set. Add it in Settings → Secrets and variables → Actions → Variables."
+            exit 1
+          fi
+          if [ -z "$DEPLOY_TOKEN" ]; then
+            echo "::error::DEPLOY_TOKEN is not set. Add a PAT with contents write access to the target repository."
+            exit 1
+          fi
+
       - name: Install dependencies
         run: npm ci
 
@@ -41,9 +55,13 @@ jobs:
 
       - name: Check backend access
         env:
-          BLOG_ORIGIN: ${{ vars.BLOG_ORIGIN || 'https://your-blog.example.com' }}
+          BLOG_ORIGIN: ${{ vars.BLOG_ORIGIN }}
           BLOG_API_TOKEN: ${{ secrets.BLOG_API_TOKEN }}
         run: |
+          if [ -z "$BLOG_ORIGIN" ]; then
+            echo "::error::BLOG_ORIGIN is not set. Add it in Settings → Secrets and variables → Actions → Variables."
+            exit 1
+          fi
           origin="${BLOG_ORIGIN%/}"
           if [ -z "$BLOG_API_TOKEN" ]; then
             echo "::error::BLOG_API_TOKEN secret is not set. Add it in Settings → Secrets and variables → Actions."
@@ -64,14 +82,14 @@ jobs:
         env:
           BASE_PATH: "/"
           CNAME: ${{ vars.CNAME }}
-          BLOG_ORIGIN: ${{ vars.BLOG_ORIGIN || 'https://your-blog.example.com' }}
+          BLOG_ORIGIN: ${{ vars.BLOG_ORIGIN }}
           BLOG_API_TOKEN: ${{ secrets.BLOG_API_TOKEN }}
 
       - name: Deploy to user site repository
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.DEPLOY_TOKEN || secrets.PAGES_TOKEN }}
-          external_repository: ${{ vars.PAGES_REPOSITORY || 'your-name/your-name.github.io' }}
+          external_repository: ${{ vars.PAGES_REPOSITORY }}
           publish_branch: gh-pages
           publish_dir: ./dist
           user_name: github-actions[bot]

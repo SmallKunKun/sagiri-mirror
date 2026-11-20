@@ -143,21 +143,17 @@ DEPLOY_TOKEN=<PAT>
 
 | 变量 | 说明 | 示例 |
 | :--- | :--- | :--- |
-| `PAGES_REPOSITORY` | 目标用户站点仓库 | `your-name/your-name.github.io` |
+| `PAGES_REPOSITORY` | 目标用户站点仓库（必填） | `your-name/your-name.github.io` |
 | `CNAME` | 自定义域名，没有就留空 | `blog.example.com` |
-| `BLOG_ORIGIN` | 后端地址 | `https://your-blog.example.com` |
+| `BLOG_ORIGIN` | 后端地址（必填） | `https://your-blog.example.com` |
 
-`PAGES_REPOSITORY` 不填时默认：
-
-```text
-your-name/your-name.github.io
-```
-
-如果是 fork，请改成自己的：
+`PAGES_REPOSITORY` 必须填写自己的用户站点仓库：
 
 ```text
-PAGES_REPOSITORY=yourname/yourname.github.io
+PAGES_REPOSITORY=your-name/your-name.github.io
 ```
+
+`BLOG_ORIGIN` 也必须填写自己的 flare-stack-blog 地址。未填写时 workflow 会直接报错，不会使用任何内置默认值。
 
 `CNAME` 会：
 
@@ -213,21 +209,15 @@ workflow 会在以下时机运行：
 
 GitHub 的定时任务可能有几分钟延迟。
 
-### 7. 可选：更换数据源
+### 7. 配置数据源
 
-默认镜像：
-
-```text
-https://your-blog.example.com
-```
-
-如果 fork 后想使用自己的 flare-stack-blog，在 Actions Variables 中新建：
+本项目不内置默认后端，必须在 Actions Variables 中配置：
 
 ```text
 BLOG_ORIGIN=https://your-blog.example.com
 ```
 
-不需要修改代码。
+本地开发时则使用环境变量或直接修改 `src/blog.config.ts` 的 `blogSource.origin`。
 
 ### 8. 可选：自动配置 Cloudflare WAF
 
@@ -304,16 +294,21 @@ npm install
 
 ### 启动开发服务器
 
+先设置自己的后端地址：
+
 ```bash
+export BLOG_ORIGIN=https://your-blog.example.com
 npm run dev
 ```
+
+也可以直接修改 `src/blog.config.ts` 的 `blogSource.origin`。
 
 默认访问 `http://localhost:4321`。
 
 ### 构建静态文件
 
 ```bash
-npm run build
+BLOG_ORIGIN=https://your-blog.example.com npm run build
 ```
 
 输出目录为 `dist/`。
@@ -336,11 +331,11 @@ npm run preview
 
 | 位置 | 说明 |
 | :--- | :--- |
-| `src/blog.config.ts` → `blogSource.origin` | 默认远端博客地址 |
-| `src/blog.config.ts` → `footerConfig` | 页脚运行时间、ICP 备案、Made with 文案 |
-| `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖默认远端博客地址 |
+| `src/blog.config.ts` → `blogSource.origin` | 必填，自己的远端博客地址 |
+| `src/blog.config.ts` → `footerConfig` | 可选页脚文案，留空则不显示 |
+| `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖 `blogSource.origin` |
 | `DEPLOY_TOKEN` Actions Secret | 推送构建产物到目标用户站点仓库的 PAT |
-| `PAGES_REPOSITORY` Actions Variable | 目标用户站点仓库，默认 `your-name/your-name.github.io` |
+| `PAGES_REPOSITORY` Actions Variable | 必填，目标用户站点仓库 |
 | `BLOG_API_TOKEN` Actions Secret | 配合 Cloudflare WAF 跳过规则读取后端 |
 | `CLOUDFLARE_API_TOKEN` Actions Secret | 可选，自动创建 Cloudflare WAF Skip 规则 |
 | `CLOUDFLARE_ZONE_ID` Actions Variable | 后端域名对应的 Cloudflare Zone ID |
