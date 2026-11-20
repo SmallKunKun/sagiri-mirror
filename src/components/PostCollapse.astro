@@ -32,7 +32,7 @@ const groups = [...byYear.entries()]
       </div>
 
       {yearPosts.map((post) => (
-        <article class="post">
+        <div class="post">
           <header class="post-header">
             <h2 class="post-title">
               <a href={withBase(`/post/${post.slug}/`)}>{post.title}</a>
@@ -43,7 +43,7 @@ const groups = [...byYear.entries()]
               </time>
             </div>
           </header>
-        </article>
+        </div>
       ))}
     </div>
   ))}

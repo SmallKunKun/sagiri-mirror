@@ -20,7 +20,7 @@ const plateCharacter = (title: string) => {
 
 <section class="post-list" aria-label="文章列表">
   {posts.map((post, index) => (
-    <article class="post-card">
+    <div class="post-card">
       <div class="post-date" aria-hidden="true">
         <span class="post-month">{monthOf(post.publishedAt)}</span>
         <span class="post-day">{dayOf(post.publishedAt)}</span>
@@ -117,6 +117,6 @@ const plateCharacter = (title: string) => {
           </a>
         </div>
       </div>
-    </article>
+    </div>
   ))}
 </section>

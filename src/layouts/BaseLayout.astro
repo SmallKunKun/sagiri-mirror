@@ -29,6 +29,7 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {!article ? <meta name="IE_RM_OFF" content="true" /> : null}
     {config.icons.faviconSvg ? (
       <link rel="icon" type="image/svg+xml" href={config.icons.faviconSvg} />
     ) : null}
