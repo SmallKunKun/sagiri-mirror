@@ -15,9 +15,9 @@ const customDomain = (process.env.CNAME || process.env.CUSTOM_DOMAIN || "")
   .replace(/^https?:\/\//, "")
   .replace(/\/.*$/, "");
 
-const rawBase = customDomain
-  ? "/"
-  : process.env.BASE_PATH || (repo && !isUserSite ? `/${repo}` : "/");
+const rawBase =
+  process.env.BASE_PATH ||
+  (customDomain ? "/" : repo && !isUserSite ? `/${repo}` : "/");
 const base =
   rawBase === "/" ? "/" : `/${rawBase.replace(/^\/+|\/+$/g, "")}`;
 
@@ -25,7 +25,7 @@ const cname = {
   name: "custom-domain-cname",
   hooks: {
     "astro:build:done": async ({ dir }) => {
-      if (!customDomain) return;
+      if (!customDomain || base !== "/") return;
       await writeFile(
         join(fileURLToPath(dir), "CNAME"),
         `${customDomain}\n`,
