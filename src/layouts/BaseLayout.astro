@@ -29,11 +29,40 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href={withBase("/favicon.svg")}
-    />
+    {config.icons.faviconSvg ? (
+      <link rel="icon" type="image/svg+xml" href={config.icons.faviconSvg} />
+    ) : null}
+    {config.icons.favicon96 ? (
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="96x96"
+        href={config.icons.favicon96}
+      />
+    ) : null}
+    {config.icons.appleTouchIcon ? (
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href={config.icons.appleTouchIcon}
+      />
+    ) : null}
+    {config.icons.webApp192 ? (
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="192x192"
+        href={config.icons.webApp192}
+      />
+    ) : null}
+    {config.icons.webApp512 ? (
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="512x512"
+        href={config.icons.webApp512}
+      />
+    ) : null}
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css"

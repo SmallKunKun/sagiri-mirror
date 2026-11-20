@@ -330,9 +330,9 @@ npm run preview
 | `BLOG_API_TOKEN` Actions Secret | 配合手动创建的 Cloudflare WAF 跳过规则读取后端 |
 | `CNAME` Actions Variable | 自定义域名，生成 `dist/CNAME` 并设置 `base=/` |
 | `src/data/navigation.ts` | 首页 / 文章 / 友链固定导航 |
-| 远端 `/api/site/config` | 站点标题、作者、tagline、头像、banner、社交链接和扩展导航 |
+| 远端 `/api/site/config` | 站点标题、作者、tagline、头像、banner、站点图标、社交链接和扩展导航 |
 
-站点标题、作者、tagline、头像、banner 和社交链接都来自远端 Site Config，不在本地硬编码。
+站点标题、作者、tagline、头像、banner、站点图标和社交链接都来自远端 Site Config，不在本地硬编码。
 
 ## 项目结构
 

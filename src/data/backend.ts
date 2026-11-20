@@ -18,6 +18,14 @@ export interface BackendSocialLink {
   label?: string;
 }
 
+export interface BackendSiteIcons {
+  faviconSvg?: string;
+  favicon96?: string;
+  appleTouchIcon?: string;
+  webApp192?: string;
+  webApp512?: string;
+}
+
 export interface BackendSiteConfig {
   title: string;
   author: string;
@@ -27,6 +35,7 @@ export interface BackendSiteConfig {
   bannerImage: string;
   social: BackendSocialLink[];
   navLinks: NavItem[];
+  icons: BackendSiteIcons;
 }
 
 const env = import.meta.env as Record<string, string | undefined>;
@@ -104,6 +113,22 @@ function normalizeConfig(value: unknown): BackendSiteConfig {
       ? config.social.filter(isSocialLink)
       : [],
     navLinks: normalizeNavLinks(config.navLinks),
+    icons: normalizeIcons(config.icons),
+  };
+}
+
+function normalizeIcons(value: unknown): BackendSiteIcons {
+  const icons =
+    typeof value === "object" && value !== null
+      ? (value as Record<string, unknown>)
+      : {};
+
+  return {
+    faviconSvg: resolveAsset(icons.faviconSvg),
+    favicon96: resolveAsset(icons.favicon96),
+    appleTouchIcon: resolveAsset(icons.appleTouchIcon),
+    webApp192: resolveAsset(icons.webApp192),
+    webApp512: resolveAsset(icons.webApp512),
   };
 }
 
