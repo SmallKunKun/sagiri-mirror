@@ -27,6 +27,7 @@ Sagiri Mirror 是一个将 [flare-stack-blog](https://github.com/du2333/flare-st
 
 - 🎨 **Sagiri 风格界面**
   - 复刻 Sagiri / Pisces 主题的 banner、站点标题、头像、导航、文章卡片、侧栏、页脚插画和背景缎带动画。
+  - 复刻 Sagiri 的自定义鼠标指针和点击粒子效果。
   - 首页文章卡片、日期徽章、分类丝带、分页和归档式文章列表。
   - 响应式布局，桌面端与移动端分别适配。
   - 文章页侧栏支持「文章目录 / 关于我」切换。
@@ -362,13 +363,14 @@ npm run preview
 ```text
 .
 ├── .github/workflows/deploy.yml   # 构建并同步到用户站点仓库
-├── public/                        # 字体、页脚插画、回到顶部图片等静态资源
+├── public/                        # 字体、鼠标指针、页脚插画、回到顶部图片等静态资源
 ├── scripts/
 │   └── localize-images.mjs        # 构建后下载并本地化远端图片
 ├── src/
 │   ├── blog.config.ts             # 远端地址和页脚配置
 │   ├── components/                # 页面组件与 Vue 搜索岛
 │   ├── data/                      # 远端 API、文章、搜索索引数据层
+│   ├── scripts/cursor-effects.ts  # Sagiri 点击粒子效果
 │   ├── layouts/BaseLayout.astro   # 全站布局、背景与图片预览
 │   ├── pages/                     # 首页、文章、分类、标签、友链、搜索
 │   ├── styles/global.css          # Sagiri 风格样式
