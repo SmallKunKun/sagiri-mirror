@@ -172,7 +172,7 @@ https://yourname.github.io/
 
 #### 可选：通过 Actions Variables 设置页脚
 
-以下变量不是必填，不设置则不显示对应内容：
+以下变量不是必填。`FOOTER_SINCE` / `FOOTER_ICP` 不设置则不显示；`FOOTER_MADE_BY` 留空时使用远端站点作者。
 
 | 变量 | 说明 | 示例 |
 | :--- | :--- | :--- |
@@ -337,7 +337,7 @@ npm run preview
 | 位置 | 说明 |
 | :--- | :--- |
 | `src/blog.config.ts` → `blogSource.origin` | 必填，自己的远端博客地址 |
-| `src/blog.config.ts` → `footerConfig` | 可选页脚文案，留空则不显示 |
+| `src/blog.config.ts` → `footerConfig` | 可选页脚文案；空值不回退到任何个人配置 |
 | `FOOTER_SINCE` / `FOOTER_ICP` / `FOOTER_ICP_URL` / `FOOTER_MADE_BY` / `FOOTER_MADE_BY_URL` | 可选页脚配置，Actions Variables 或环境变量 |
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖 `blogSource.origin` |
 | `DEPLOY_TOKEN` Actions Secret | 推送构建产物到目标用户站点仓库的 PAT |
