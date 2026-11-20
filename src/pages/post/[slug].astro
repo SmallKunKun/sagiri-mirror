@@ -109,6 +109,7 @@ const showCover = Boolean(post.cover && firstImage !== post.cover.url);
         width={post.cover.width ?? undefined}
         height={post.cover.height ?? undefined}
         loading="eager"
+        draggable="false"
       />
     ) : null}
 

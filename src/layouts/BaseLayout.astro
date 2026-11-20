@@ -93,7 +93,11 @@ const {
       const imageSelector =
         ".post-body-single img, .post-single-cover, .post-cover img";
 
-      for (const image of document.querySelectorAll(imageSelector)) {
+      for (const image of document.querySelectorAll<HTMLImageElement>(
+        imageSelector,
+      )) {
+        image.draggable = false;
+        image.addEventListener("dragstart", (event) => event.preventDefault());
         image.addEventListener("click", (event) => {
           if (image.closest("a")) {
             event.preventDefault();

@@ -60,6 +60,10 @@ textarea {
   background: rgba(0, 149, 255, 0.2);
 }
 
+img {
+  -webkit-user-drag: none;
+}
+
 a {
   color: var(--link);
   text-decoration: none;

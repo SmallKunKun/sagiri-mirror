@@ -45,6 +45,7 @@ Sagiri Mirror 是一个将 [flare-stack-blog](https://github.com/du2333/flare-st
 - 🖼️ **阅读体验**
   - 构建时把远端头像、banner、站点图标、封面、文章图片和友链头像下载到 `dist/images/remote`，部署后不再依赖源站图床。
   - 文章标题和正文文字可选中复制；导航、侧栏、卡片、标签和页脚等界面元素禁止选中。
+  - 文章图片和封面不能拖拽，只能点击放大预览。
   - 文章图片点击放大，使用 [medium-zoom](https://github.com/francoischalifour/medium-zoom) 实现。
   - 页脚显示博客运行时间。
   - 回到顶部按钮、平滑锚点跳转和动态缎带背景。
