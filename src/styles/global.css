@@ -301,23 +301,10 @@ p {
   min-height: 750px;
   overflow: hidden;
   background-color: #dfe7ef;
-  background-image:
-    linear-gradient(rgba(32, 43, 62, 0.32), rgba(32, 43, 62, 0.46)),
-    var(--banner-image, none);
+  background-image: var(--banner-image, none);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-}
-
-.site-banner::before {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 0;
-  height: 140px;
-  background: linear-gradient(to bottom, transparent, rgba(239, 239, 239, 0.92));
 }
 
 .site-banner::after {
