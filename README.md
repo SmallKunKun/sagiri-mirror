@@ -170,6 +170,20 @@ PAGES_REPOSITORY=your-name/your-name.github.io
 https://yourname.github.io/
 ```
 
+#### 可选：通过 Actions Variables 设置页脚
+
+以下变量不是必填，不设置则不显示对应内容：
+
+| 变量 | 说明 | 示例 |
+| :--- | :--- | :--- |
+| `FOOTER_SINCE` | 博客开始运行时间 | `2020-01-01T00:00:00+08:00` |
+| `FOOTER_ICP` | ICP 备案号 | `萌ICP备 00000000号` |
+| `FOOTER_ICP_URL` | ICP 查询链接 | `https://beian.miit.gov.cn/` |
+| `FOOTER_MADE_BY` | Made with ♥ by 后面的名字 | `your-name` |
+| `FOOTER_MADE_BY_URL` | 名字链接 | `https://github.com/your-name` |
+
+也可以直接修改 `src/blog.config.ts` 里的 `footerDefaults`，环境变量会覆盖它。
+
 ### 5. 运行部署
 
 打开 **Actions → Sync and deploy → Run workflow**。
@@ -324,6 +338,7 @@ npm run preview
 | :--- | :--- |
 | `src/blog.config.ts` → `blogSource.origin` | 必填，自己的远端博客地址 |
 | `src/blog.config.ts` → `footerConfig` | 可选页脚文案，留空则不显示 |
+| `FOOTER_SINCE` / `FOOTER_ICP` / `FOOTER_ICP_URL` / `FOOTER_MADE_BY` / `FOOTER_MADE_BY_URL` | 可选页脚配置，Actions Variables 或环境变量 |
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖 `blogSource.origin` |
 | `DEPLOY_TOKEN` Actions Secret | 推送构建产物到目标用户站点仓库的 PAT |
 | `PAGES_REPOSITORY` Actions Variable | 必填，目标用户站点仓库 |

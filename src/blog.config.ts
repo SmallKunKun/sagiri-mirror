@@ -1,3 +1,18 @@
+const env = import.meta.env as Record<string, string | undefined>;
+
+const footerDefaults = {
+  since: "",
+  icp: "",
+  icpUrl: "",
+  madeBy: "",
+  madeByUrl: "",
+};
+
+function footerValue(key: string, fallback: string) {
+  const value = process.env[key] ?? env[key];
+  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+}
+
 /**
  * 远端 flare-stack-blog 地址。
  *
@@ -8,16 +23,17 @@ export const blogSource = {
   origin: "",
 };
 
-/** 页脚文案。留空则不显示对应内容。 */
+/**
+ * 页脚文案。
+ *
+ * 可以修改 footerDefaults，也可以在 Actions Variables / 环境变量中设置：
+ * FOOTER_SINCE、FOOTER_ICP、FOOTER_ICP_URL、FOOTER_MADE_BY、FOOTER_MADE_BY_URL。
+ * 留空则不显示对应内容。
+ */
 export const footerConfig = {
-  /** 博客开始运行的时间，用于「博客已萌萌哒运行…」计时。留空则不显示。 */
-  since: "",
-  /** ICP 备案号。留空则不显示。 */
-  icp: "",
-  /** ICP 链接，例如 https://beian.miit.gov.cn/。留空则只显示文字。 */
-  icpUrl: "",
-  /** Made with ♥ by 后面的名字。留空使用站点作者。 */
-  madeBy: "",
-  /** Made with 名字的链接。留空则不链接。 */
-  madeByUrl: "",
+  since: footerValue("FOOTER_SINCE", footerDefaults.since),
+  icp: footerValue("FOOTER_ICP", footerDefaults.icp),
+  icpUrl: footerValue("FOOTER_ICP_URL", footerDefaults.icpUrl),
+  madeBy: footerValue("FOOTER_MADE_BY", footerDefaults.madeBy),
+  madeByUrl: footerValue("FOOTER_MADE_BY_URL", footerDefaults.madeByUrl),
 };

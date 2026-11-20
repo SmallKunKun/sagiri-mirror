@@ -77,6 +77,11 @@ jobs:
           CNAME: ${{ vars.CNAME }}
           BLOG_ORIGIN: ${{ vars.BLOG_ORIGIN }}
           BLOG_API_TOKEN: ${{ secrets.BLOG_API_TOKEN }}
+          FOOTER_SINCE: ${{ vars.FOOTER_SINCE }}
+          FOOTER_ICP: ${{ vars.FOOTER_ICP }}
+          FOOTER_ICP_URL: ${{ vars.FOOTER_ICP_URL }}
+          FOOTER_MADE_BY: ${{ vars.FOOTER_MADE_BY }}
+          FOOTER_MADE_BY_URL: ${{ vars.FOOTER_MADE_BY_URL }}
 
       - name: Deploy to user site repository
         uses: peaceiris/actions-gh-pages@v4
