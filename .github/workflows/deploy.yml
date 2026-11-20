@@ -74,7 +74,6 @@ jobs:
           external_repository: ${{ vars.PAGES_REPOSITORY || 'your-name/your-name.github.io' }}
           publish_branch: gh-pages
           publish_dir: ./dist
-          force_orphan: true
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           commit_message: "deploy: sync from sagiri-mirror@${{ github.sha }}"
