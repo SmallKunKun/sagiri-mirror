@@ -43,6 +43,7 @@ Sagiri Mirror 是一个将 [flare-stack-blog](https://github.com/du2333/flare-st
   - 搜索结果直接跳转到静态文章页。
 
 - 🖼️ **阅读体验**
+  - 构建时把远端头像、banner、站点图标、封面、文章图片和友链头像下载到 `dist/images/remote`，部署后不再依赖源站图床。
   - 文章图片点击放大，使用 [medium-zoom](https://github.com/francoischalifour/medium-zoom) 实现。
   - 页脚显示博客运行时间。
   - 回到顶部按钮、平滑锚点跳转和动态缎带背景。
@@ -78,8 +79,14 @@ flare-stack-blog API
         ▼
    Astro 构建（Node）
         │
+        ├─ 生成 HTML / CSS
+        └─ 下载远端图片到 dist/images/remote
+        │
         ▼
    dist/ 静态文件
+        │
+        ▼
+   用户站点仓库 gh-pages
         │
         ▼
    GitHub Pages
@@ -340,7 +347,7 @@ npm run preview
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖 `blogSource.origin` |
 | `DEPLOY_TOKEN` Actions Secret | 推送构建产物到目标用户站点仓库的 PAT |
 | `PAGES_REPOSITORY` Actions Variable | 必填，目标用户站点仓库 |
-| `BLOG_API_TOKEN` Actions Secret | 配合手动创建的 Cloudflare WAF 跳过规则读取后端 |
+| `BLOG_API_TOKEN` Actions Secret | 读取后端 API 和下载远端图片的请求头 token |
 | `CNAME` Actions Variable | 自定义域名，生成 `dist/CNAME` 并设置 `base=/` |
 | `src/data/navigation.ts` | 首页 / 文章 / 友链固定导航 |
 | 远端 `/api/site/config` | 站点标题、作者、tagline、头像、banner、站点图标、社交链接和扩展导航 |
@@ -353,6 +360,8 @@ npm run preview
 .
 ├── .github/workflows/deploy.yml   # 构建并同步到用户站点仓库
 ├── public/                        # 字体、页脚插画、回到顶部图片等静态资源
+├── scripts/
+│   └── localize-images.mjs        # 构建后下载并本地化远端图片
 ├── src/
 │   ├── blog.config.ts             # 远端地址和页脚配置
 │   ├── components/                # 页面组件与 Vue 搜索岛
@@ -371,7 +380,8 @@ npm run preview
 - 构建机必须能访问远端 API；接口失败时构建会终止。
 - 文章正文来自远端 `feed.json` 的 HTML，代码高亮、数学公式和 Mermaid 等效果取决于远端输出，前端不额外处理。
 - 搜索索引同样来自远端内容；如果 feed 不可用，索引会退化为标题和摘要。
-- 图片直接引用远端地址，首次加载速度取决于图床。
+- 图片在构建时下载到 `dist/images/remote`；下载失败的图片会保留远端地址并在构建日志中提示。
+- 图片下载同样会带上 `BLOG_API_TOKEN`，需要和读取 API 的 WAF 放行规则一致。
 
 ## 常见问题
 
