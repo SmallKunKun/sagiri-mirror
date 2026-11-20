@@ -86,10 +86,10 @@ onMounted(() => {
 <template>
   <div class="search-results-wrap">
     <p v-if="!query.trim()" class="search-hint">
-      在导航栏输入关键词后回车搜索。
+      在导航栏输入关键词后回车搜索
     </p>
     <p v-else-if="results.length === 0" class="search-hint">
-      没有找到匹配的文章。
+      没有找到匹配的文章
     </p>
 
     <ul v-else class="search-results">
