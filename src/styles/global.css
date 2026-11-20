@@ -1516,15 +1516,9 @@ p {
 @media (max-width: 767px) {
   .posts-collapse .post-title,
   .posts-collapse .post-meta {
-    position: static;
     display: block;
     width: auto;
-    margin-left: 0;
     text-align: left;
-  }
-
-  .posts-collapse .post-meta {
-    margin: 0 0 4px;
   }
 
   .post-nav {
