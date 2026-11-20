@@ -10,7 +10,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-deploy-222?logo=github&style=flat-square)](https://pages.github.com)
 
-[功能特性](#功能特性) · [技术栈](#技术栈) · [部署](#部署到-github-pages) · [本地开发](#本地开发) · [配置](#配置)
+[功能特性](#功能特性) · [技术栈](#技术栈) · [部署](#部署到用户站点仓库) · [本地开发](#本地开发) · [配置](#配置)
 
 </div>
 
@@ -48,10 +48,10 @@ Sagiri Mirror 是一个将 [flare-stack-blog](https://github.com/du2333/flare-st
   - 回到顶部按钮、平滑锚点跳转和动态缎带背景。
 
 - ⚙️ **自动部署**
-  - GitHub Actions 自动构建并发布到 GitHub Pages。
+  - GitHub Actions 自动构建并推送到 `username.github.io` 仓库的 `gh-pages` 分支。
   - 每天北京时间 04:00 自动同步一次，也支持 push 和手动触发。
-  - 自动识别 `username.github.io` 根站点和 `username.github.io/repo/` 项目站点，不需要手动配置 `base`。
-  - 支持自定义域名和可选的远端博客地址覆盖。
+  - 构建产物以根路径部署，适合用户站点自定义域名。
+  - 支持自定义域名、目标仓库和远端博客地址配置。
 
 ## 技术栈
 
@@ -87,55 +87,114 @@ flare-stack-blog API
 
 所有 API 请求都发生在构建阶段。接口不可用时构建会直接失败，不会生成假数据或回退内容。
 
-## 部署到 GitHub Pages
+## 部署到用户站点仓库
+
+这个项目采用「构建与发布分离」的方式：
+
+- `sagiri-mirror` 只负责构建
+- 构建产物推送到 `username.github.io` 仓库的 `gh-pages` 分支
+- `username.github.io` 的 GitHub Pages 负责托管，最终地址是根域名或自定义域名
 
 ### 1. Fork 仓库
 
 Fork 本项目，或者直接使用本仓库。
 
-### 2. 启用 GitHub Pages
+### 2. 准备用户站点仓库
 
-打开仓库的 **Settings → Pages → Build and deployment**，把 **Source** 设置为：
-
-```text
-GitHub Actions
-```
-
-#### 可选：用 PAT 自动启用 Pages
-
-如果不想手动打开 Pages，可以在 **Settings → Secrets and variables → Actions → Secrets** 中新建：
+创建一个名为：
 
 ```text
-PAGES_TOKEN
+<你的用户名>.github.io
 ```
 
-Token 要求：
+的仓库，并确认：
 
-- Classic PAT：勾选 `repo` scope
-- Fine-grained PAT：授予 `Pages` 写权限和 `Administration` 写权限，并授权当前仓库
-
-workflow 检测到 `PAGES_TOKEN` 后会把它传给 `configure-pages` 并开启自动启用；没有这个 secret 时继续使用 `GITHUB_TOKEN`，需要手动启用 Pages。
+- GitHub Pages 的 Source 是 `gh-pages` 分支
+- 如果使用自定义域名，在 Pages 设置里绑定域名，并准备 `CNAME`
 
 > [!IMPORTANT]
-> PAT 只用于创建和配置 Pages 站点；实际部署仍然使用 `GITHUB_TOKEN` 和 OIDC。
+> workflow 会强制覆盖目标仓库的 `gh-pages` 分支。第一次部署前请确认该仓库里没有需要保留的源码；如果旧站是 Hexo 源码，请先备份。
 
-### 3. 运行部署
+### 3. 创建部署 Token
+
+workflow 需要把 `dist/` 推送到另一个仓库，`GITHUB_TOKEN` 没有这个权限，所以需要 PAT。
+
+Fine-grained PAT：
+
+- Repository access：只选择目标仓库 `<用户名>/<用户名>.github.io`
+- Repository permissions：
+  - `Contents`：Read and write
+
+Classic PAT：
+
+- 勾选 `repo` scope
+
+在 `sagiri-mirror` 仓库添加 Secret：
+
+```text
+DEPLOY_TOKEN=<PAT>
+```
+
+### 4. 配置仓库变量
+
+在 **Settings → Secrets and variables → Actions → Variables** 中配置：
+
+| 变量 | 说明 | 示例 |
+| :--- | :--- | :--- |
+| `PAGES_REPOSITORY` | 目标用户站点仓库 | `your-name/your-name.github.io` |
+| `CNAME` | 自定义域名，没有就留空 | `blog.example.com` |
+| `BLOG_ORIGIN` | 后端地址 | `https://your-blog.example.com` |
+
+`PAGES_REPOSITORY` 不填时默认：
+
+```text
+your-name/your-name.github.io
+```
+
+如果是 fork，请改成自己的：
+
+```text
+PAGES_REPOSITORY=yourname/yourname.github.io
+```
+
+`CNAME` 会：
+
+- 写入 `dist/CNAME`
+- 把 `base` 设为 `/`
+- 把站点 `site` 设为 `https://<CNAME>`
+
+如果不使用自定义域名，`CNAME` 留空，部署到：
+
+```text
+https://yourname.github.io/
+```
+
+### 5. 运行部署
 
 打开 **Actions → Sync and deploy → Run workflow**。
 
-部署地址会自动适配：
+workflow 会：
 
 ```text
-仓库名 username.github.io
-→ https://username.github.io/
-
-其他仓库名
-→ https://username.github.io/仓库名/
+npm ci
+→ 检查后端
+→ npm run build
+→ 推送 dist/ 到 PAGES_REPOSITORY 的 gh-pages 分支
 ```
 
-`astro.config.mjs` 会读取 Actions 提供的 `base_path`，自动处理子路径，不需要手动改 `base`。
+成功后访问：
 
-### 4. 自动同步
+```text
+https://yourname.github.io/
+```
+
+或自定义域名：
+
+```text
+https://your-domain.example/
+```
+
+### 6. 自动同步
 
 workflow 会在以下时机运行：
 
@@ -152,7 +211,7 @@ workflow 会在以下时机运行：
 
 GitHub 的定时任务可能有几分钟延迟。
 
-### 5. 可选：更换数据源
+### 7. 可选：更换数据源
 
 默认镜像：
 
@@ -160,7 +219,7 @@ GitHub 的定时任务可能有几分钟延迟。
 https://your-blog.example.com
 ```
 
-如果 fork 后想使用自己的 flare-stack-blog，在 **Settings → Secrets and variables → Actions → Variables** 中新建：
+如果 fork 后想使用自己的 flare-stack-blog，在 Actions Variables 中新建：
 
 ```text
 BLOG_ORIGIN=https://your-blog.example.com
@@ -168,29 +227,7 @@ BLOG_ORIGIN=https://your-blog.example.com
 
 不需要修改代码。
 
-### 6. 自定义域名
-
-在 **Settings → Secrets and variables → Actions → Variables** 中新建：
-
-```text
-CNAME=blog.example.com
-```
-
-构建时会自动：
-
-- 生成 `dist/CNAME`
-- 把 `base` 强制设为 `/`
-- 把站点 `site` 设为 `https://blog.example.com`
-
-然后在 **Settings → Pages → Custom domain** 中填写同一个域名即可。
-
-如果不设置 `CNAME`，不会生成 `CNAME` 文件，fork 默认使用：
-
-```text
-https://username.github.io/仓库名/
-```
-
-### 7. 可选：自动配置 Cloudflare WAF
+### 8. 可选：自动配置 Cloudflare WAF
 
 如果后端也在自己的 Cloudflare 账号下，可以让 workflow 自动创建 WAF Skip 规则，不需要手动进控制台。
 
@@ -300,13 +337,12 @@ npm run preview
 | `src/blog.config.ts` → `blogSource.origin` | 默认远端博客地址 |
 | `src/blog.config.ts` → `footerConfig` | 页脚运行时间、ICP 备案、Made with 文案 |
 | `BLOG_ORIGIN` 环境变量 / Actions Variable | 覆盖默认远端博客地址 |
-| `PAGES_TOKEN` Actions Secret | 可选，用 PAT 自动创建和配置 Pages 站点 |
-| `BLOG_API_TOKEN` Actions Secret | 可选，配合 Cloudflare WAF 跳过规则读取后端 |
+| `DEPLOY_TOKEN` Actions Secret | 推送构建产物到目标用户站点仓库的 PAT |
+| `PAGES_REPOSITORY` Actions Variable | 目标用户站点仓库，默认 `your-name/your-name.github.io` |
+| `BLOG_API_TOKEN` Actions Secret | 配合 Cloudflare WAF 跳过规则读取后端 |
 | `CLOUDFLARE_API_TOKEN` Actions Secret | 可选，自动创建 Cloudflare WAF Skip 规则 |
 | `CLOUDFLARE_ZONE_ID` Actions Variable | 后端域名对应的 Cloudflare Zone ID |
-| `CNAME` Actions Variable | 自定义域名，生成 `dist/CNAME` 并强制 `base=/` |
-| `BASE_PATH` | 部署子路径，GitHub Actions 自动设置 |
-| `SITE_ORIGIN` | 站点 origin，GitHub Actions 自动设置 |
+| `CNAME` Actions Variable | 自定义域名，生成 `dist/CNAME` 并设置 `base=/` |
 | `src/data/navigation.ts` | 首页 / 文章 / 友链固定导航 |
 | 远端 `/api/site/config` | 站点标题、作者、tagline、头像、banner、社交链接和扩展导航 |
 
@@ -316,7 +352,7 @@ npm run preview
 
 ```text
 .
-├── .github/workflows/deploy.yml   # GitHub Pages 自动部署
+├── .github/workflows/deploy.yml   # 构建并同步到用户站点仓库
 ├── public/                        # 字体、页脚插画、回到顶部图片等静态资源
 ├── src/
 │   ├── blog.config.ts             # 远端地址和页脚配置
