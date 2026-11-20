@@ -135,6 +135,8 @@ Classic PAT：
 DEPLOY_TOKEN=<PAT>
 ```
 
+如果之前配置过 `PAGES_TOKEN`，并且它也有目标仓库的 Contents 写权限，workflow 会把它作为回退。
+
 ### 4. 配置仓库变量
 
 在 **Settings → Secrets and variables → Actions → Variables** 中配置：
