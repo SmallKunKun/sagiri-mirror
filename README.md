@@ -115,6 +115,9 @@ Fork 本项目，或者直接使用本仓库。
 > [!IMPORTANT]
 > workflow 会覆盖目标仓库的 `gh-pages` 分支内容。第一次部署前请确认该仓库里没有需要保留的源码；如果旧站是 Hexo 源码，请先备份。
 
+> [!IMPORTANT]
+> `sagiri-mirror` 仓库本身不要再启用 Pages。如果之前启用过，请在 **Settings → Pages** 里 **Unpublish site**。否则每次 push 都会触发 GitHub 的 Jekyll 构建，尝试解析 `src/pages/*.astro` 并失败。
+
 ### 3. 创建部署 Token
 
 workflow 需要把 `dist/` 推送到另一个仓库，`GITHUB_TOKEN` 没有这个权限，所以需要 PAT。
