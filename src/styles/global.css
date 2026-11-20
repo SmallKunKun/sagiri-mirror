@@ -285,9 +285,13 @@ p {
   flex-direction: column;
   min-height: 750px;
   overflow: hidden;
-  background:
+  background-color: #dfe7ef;
+  background-image:
     linear-gradient(rgba(32, 43, 62, 0.32), rgba(32, 43, 62, 0.46)),
-    var(--banner-image, url("/images/banner.svg")) center / cover no-repeat;
+    var(--banner-image, none);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .site-banner::before {

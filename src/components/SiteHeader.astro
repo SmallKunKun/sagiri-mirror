@@ -87,7 +87,11 @@ const hrefOf = (href: string) => (isExternal(href) ? href : withBase(href));
 
   <div
     class="site-banner"
-    style={`--banner-image: url('${config.bannerImage}')`}
+    style={
+      config.bannerImage
+        ? `--banner-image: url('${config.bannerImage}')`
+        : undefined
+    }
   >
     <div class="site-banner-inner">
       <BrandTitle text={config.title} />
