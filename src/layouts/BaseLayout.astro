@@ -29,6 +29,29 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <script is:inline>
+      (() => {
+        const key = "sagiri-theme";
+        let mode = "auto";
+
+        try {
+          const stored = localStorage.getItem(key);
+          if (stored === "light" || stored === "dark" || stored === "auto") {
+            mode = stored;
+          }
+        } catch {
+          // Storage can be unavailable in private mode.
+        }
+
+        const dark =
+          mode === "dark" ||
+          (mode === "auto" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+        document.documentElement.dataset.themeMode = mode;
+      })();
+    </script>
     {!article ? <meta name="IE_RM_OFF" content="true" /> : null}
     {config.icons.faviconSvg ? (
       <link rel="icon" type="image/svg+xml" href={config.icons.faviconSvg} />

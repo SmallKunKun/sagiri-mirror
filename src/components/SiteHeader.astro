@@ -80,6 +80,57 @@ const hrefOf = (href: string) => (isExternal(href) ? href : withBase(href));
               </svg>
             </button>
           </form>
+
+          <div class="theme-switcher">
+            <button
+              class="theme-toggle"
+              type="button"
+              aria-label="切换主题"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="theme-menu"
+            >
+              <i
+                class="fas fa-adjust theme-icon theme-icon-auto"
+                aria-hidden="true"
+              ></i>
+              <i
+                class="fas fa-sun theme-icon theme-icon-light"
+                aria-hidden="true"
+              ></i>
+              <i
+                class="fas fa-moon theme-icon theme-icon-dark"
+                aria-hidden="true"
+              ></i>
+            </button>
+
+            <div class="theme-menu" id="theme-menu" role="menu" hidden>
+              <button
+                type="button"
+                role="menuitemradio"
+                data-theme-choice="auto"
+                aria-checked="true"
+              >
+                自动
+              </button>
+              <button
+                type="button"
+                role="menuitemradio"
+                data-theme-choice="light"
+                aria-checked="false"
+              >
+                白天
+              </button>
+              <button
+                type="button"
+                role="menuitemradio"
+                data-theme-choice="dark"
+                aria-checked="false"
+              >
+                黑夜
+              </button>
+            </div>
+          </div>
         </li>
       </ul>
     </nav>
@@ -103,3 +154,91 @@ const hrefOf = (href: string) => (isExternal(href) ? href : withBase(href));
     <h2 class="site-master-description">{config.tagline}</h2>
   </div>
 </header>
+
+<script is:inline>
+  (() => {
+    const key = "sagiri-theme";
+    const root = document.documentElement;
+    const toggle = document.querySelector(".theme-toggle");
+    const menu = document.getElementById("theme-menu");
+    const choices = [...document.querySelectorAll("[data-theme-choice]")];
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+    if (!toggle || !menu) return;
+
+    const apply = (mode, persist = true) => {
+      const next =
+        mode === "light" || mode === "dark" || mode === "auto" ? mode : "auto";
+      const dark = next === "dark" || (next === "auto" && media.matches);
+
+      root.dataset.themeMode = next;
+      root.dataset.theme = dark ? "dark" : "light";
+
+      if (persist) {
+        try {
+          localStorage.setItem(key, next);
+        } catch {
+          // Storage can be unavailable in private mode.
+        }
+      }
+
+      for (const choice of choices) {
+        choice.setAttribute(
+          "aria-checked",
+          String(choice.dataset.themeChoice === next),
+        );
+      }
+    };
+
+    const close = () => {
+      menu.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    };
+
+    const open = () => {
+      menu.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+    };
+
+    toggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      menu.hidden ? open() : close();
+    });
+
+    for (const choice of choices) {
+      choice.addEventListener("click", () => {
+        apply(choice.dataset.themeChoice);
+        close();
+        toggle.focus();
+      });
+    }
+
+    document.addEventListener("click", (event) => {
+      const switcher = toggle.closest(".theme-switcher");
+      if (!menu.hidden && switcher && !switcher.contains(event.target)) {
+        close();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !menu.hidden) {
+        close();
+        toggle.focus();
+      }
+    });
+
+    const onChange = () => {
+      if ((root.dataset.themeMode || "auto") === "auto") {
+        apply("auto", false);
+      }
+    };
+
+    if (media.addEventListener) {
+      media.addEventListener("change", onChange);
+    } else {
+      media.addListener(onChange);
+    }
+
+    apply(root.dataset.themeMode || "auto", false);
+  })();
+</script>
