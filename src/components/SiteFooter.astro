@@ -49,13 +49,7 @@ const year = new Date().getFullYear();
 
     <p class="footer-made">
       Made with <span class="footer-heart" aria-hidden="true">♥</span> by{" "}
-      {footerConfig.madeByUrl ? (
-        <a href={footerConfig.madeByUrl} target="_blank" rel="noreferrer">
-          {footerConfig.madeBy || config.author}
-        </a>
-      ) : (
-        footerConfig.madeBy || config.author
-      )}
+      {config.author}
     </p>
   </div>
 </footer>

@@ -4,8 +4,6 @@ const footerDefaults = {
   since: "",
   icp: "",
   icpUrl: "",
-  madeBy: "",
-  madeByUrl: "",
 };
 
 function footerValue(key: string, fallback: string) {
@@ -27,13 +25,11 @@ export const blogSource = {
  * 页脚文案。
  *
  * 可以修改 footerDefaults，也可以在 Actions Variables / 环境变量中设置：
- * FOOTER_SINCE、FOOTER_ICP、FOOTER_ICP_URL、FOOTER_MADE_BY、FOOTER_MADE_BY_URL。
- * 留空则不显示对应内容。
+ * FOOTER_SINCE、FOOTER_ICP、FOOTER_ICP_URL。
+ * 留空则不显示对应内容。Made with 文案固定使用远端站点作者。
  */
 export const footerConfig = {
   since: footerValue("FOOTER_SINCE", footerDefaults.since),
   icp: footerValue("FOOTER_ICP", footerDefaults.icp),
   icpUrl: footerValue("FOOTER_ICP_URL", footerDefaults.icpUrl),
-  madeBy: footerValue("FOOTER_MADE_BY", footerDefaults.madeBy),
-  madeByUrl: footerValue("FOOTER_MADE_BY_URL", footerDefaults.madeByUrl),
 };
